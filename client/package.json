@@ -86,6 +86,13 @@
     ]
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "airbnb",
+    "env": {
+      "browser": true
+    },
+    "rules": {
+      "react/prefer-stateless-function": 0,
+      "comma-dangle": ["error", "never"]
+    }
   }
 }

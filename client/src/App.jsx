@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import styles from './App.css';
 import Timeline from './components/timeline';
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <div className={styles.app}>
