@@ -1,0 +1,17 @@
+.header {
+  z-index: 0;
+  flex: 0 56px;
+  display: flex;
+  background-color: #dcdcdc;
+  padding: 0 16px;
+  align-items: center;
+  height: 56px;
+}
+
+.h1 {
+  margin: 0 16px 0 0;
+}
+
+.select {
+  flex-grow: 1;
+}
