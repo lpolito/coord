@@ -1,0 +1,13 @@
+.nav {
+  order: 0;
+  overflow: auto;
+  background: #faf9f8;
+}
+
+.closed {
+  flex: 0 0 0;
+}
+
+.open {
+  flex: 0 0 256px;
+}

@@ -8,8 +8,22 @@
   height: 56px;
 }
 
+.burger {
+  font-size: 20px;
+  margin: 0 16px 0 0;
+  padding: 8px;
+  color: var(--gray-light);
+  border: none;
+  background-color: transparent;
+}
+
+.burger:focus {
+  outline: 0; /* TODO change to something else indicating focus */
+}
+
 .h1 {
   margin: 0 16px 0 0;
+  color: var(--gray-dark);
 }
 
 .select {

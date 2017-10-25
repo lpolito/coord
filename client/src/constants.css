@@ -1,0 +1,6 @@
+:root {
+  --rgb-gray-dark: 17, 17, 17;
+  --gray-light: rgba(var(--rgb-gray-dark), 0.4);
+  --gray: rgba(var(--rgb-gray-dark), 0.7);
+  --gray-dark: rgba(var(--rgb-gray-dark), 1);
+}
