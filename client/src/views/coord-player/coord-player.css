@@ -1,0 +1,14 @@
+.coordPlayer {
+  width: 100%;
+}
+
+.header {
+  margin: 20px 0 8px 0;
+  font-size: 1.8rem;
+}
+
+.timelineCont {
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: visible;
+}

@@ -17,4 +17,13 @@
   flex: 1;
   order: 1;
   overflow: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.center {
+  max-width: 1284px;
+  width: calc(100% - 256px);
+  display: flex;
+  justify-content: center;
 }

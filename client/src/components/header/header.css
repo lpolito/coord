@@ -2,10 +2,11 @@
   z-index: 0;
   flex: 0 56px;
   display: flex;
-  background-color: #dcdcdc;
+  background-color: rgb(255, 255, 255);
   padding: 0 16px;
   align-items: center;
   height: 56px;
+  box-shadow: -1px 1px 7px rgb(235, 235, 235);
 }
 
 .burger {
@@ -24,8 +25,5 @@
 .h1 {
   margin: 0 16px 0 0;
   color: var(--gray-dark);
-}
-
-.select {
-  flex-grow: 1;
+  font-size: 3rem;
 }

@@ -2,13 +2,13 @@ import React from 'react';
 import styles from './App.css';
 import Header from './components/header/header';
 import Nav from './components/nav/nav';
-import Timeline from './components/timeline/timeline';
+import CoordPlayer from './views/coord-player/coord-player';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      navOpen: true
+      navOpen: false
     };
 
     this.toggleNav = this.toggleNav.bind(this);
@@ -26,7 +26,9 @@ class App extends React.Component {
         <div className={styles.app}>
           <Nav navOpen={this.state.navOpen} />
           <div className={styles.content}>
-            <Timeline />
+            <div className={styles.center}>
+              <CoordPlayer />
+            </div>
           </div>
         </div>
       </div>

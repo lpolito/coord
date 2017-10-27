@@ -1,0 +1,16 @@
+.angle {
+  height: 40px;
+  border-bottom: 1px solid lightgray;
+  /* display: flex; */
+  /* align-items: center; */
+}
+
+.coordinates {
+  /* display: flex;
+  flex-direction: row; */
+  position: relative;
+}
+
+.author {
+  /* align-self: flex-end; */
+}

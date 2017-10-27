@@ -1,7 +1,7 @@
 .nav {
   order: 0;
   overflow: auto;
-  background: #faf9f8;
+  background: rgb(245, 245, 245);
 }
 
 .closed {
