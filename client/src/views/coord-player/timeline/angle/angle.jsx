@@ -6,7 +6,13 @@ import Coordinate from './coordinate/coordinate';
 class Angle extends React.Component {
   render() {
     const coordinates = this.props.angle.coordinates.map(coordinate =>
-      <Coordinate key={coordinate.id} coordinate={coordinate} />);
+      (
+        <Coordinate
+          key={coordinate.id}
+          coordinate={coordinate}
+          tStartDiff={this.props.tStartDiff}
+        />
+      ));
 
     return (
       <div className={styles.angle}>
@@ -20,7 +26,8 @@ class Angle extends React.Component {
 }
 
 Angle.propTypes = {
-  angle: PropTypes.arrayOf(PropTypes.object).isRequired
+  angle: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tStartDiff: PropTypes.number.isRequired
 };
 
 export default Angle;

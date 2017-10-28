@@ -4,11 +4,11 @@ import styles from './coordinate.css';
 
 class Coordinate extends React.Component {
   render() {
-    const getLeft = xCoord => `${xCoord}px`;
+    const getLeft = xCoord => `${xCoord + this.props.tStartDiff}px`;
     const getWidth = ytLength => `${ytLength}px`;
 
     const style = {
-      left: getLeft(this.props.coordinate.xCoord),
+      transform: `translate(${getLeft(this.props.coordinate.xCoord)}`,
       width: getWidth(this.props.coordinate.ytLength)
     };
 
@@ -21,7 +21,8 @@ class Coordinate extends React.Component {
 }
 
 Coordinate.propTypes = {
-  coordinate: PropTypes.objectOf(PropTypes.shape({})).isRequired
+  coordinate: PropTypes.objectOf(PropTypes.shape({})).isRequired,
+  tStartDiff: PropTypes.number.isRequired
 };
 
 export default Coordinate;

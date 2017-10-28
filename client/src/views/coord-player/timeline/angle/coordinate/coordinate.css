@@ -1,7 +1,6 @@
 .coordinate {
   background-color: white;
-  margin: 5px .5px;
-  border: 1px solid gray;
-  height: 15px;
+  margin: 5px 0;
+  height: 30px;
   position: absolute;
 }
