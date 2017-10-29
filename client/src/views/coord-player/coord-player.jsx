@@ -13,28 +13,28 @@ class CoordPlayer extends React.Component {
         angles: [
           {
             id: 1,
-            author: 'YouTube Star 1',
+            author: 'YouTube Star 1', // replace with ytAuthorId
             coordinates: [{
               id: 1,
-              ytId: '',
-              ytLength: 120,
-              ytStart: 0,
-              xCoord: 0,
-              selected: true
+              ytId: '', // video id
+              ytLength: 120, // length of yt video in seconds
+              // ytStart: 0, // place to start yt video
+              xCoord: 0, // x position on timeline
+              selected: true // whether or not it's going to play
             },
             {
               id: 2,
               ytId: '',
               ytLength: 40,
-              ytStart: 0,
+              // ytStart: 0,
               xCoord: 125,
-              selected: true
+              selected: false
             },
             {
               id: 3,
               ytId: '',
               ytLength: 45,
-              ytStart: 0,
+              // ytStart: 0,
               xCoord: 170,
               selected: true
             }]
@@ -46,9 +46,9 @@ class CoordPlayer extends React.Component {
               id: 4,
               ytId: '',
               ytLength: 120,
-              ytStart: 0,
+              // ytStart: 0,
               xCoord: 20,
-              selected: true
+              selected: false
             }]
           },
           {
@@ -58,7 +58,7 @@ class CoordPlayer extends React.Component {
               id: 5,
               ytId: '',
               ytLength: 600,
-              ytStart: 0,
+              // ytStart: 0,
               xCoord: 600,
               selected: true
             }]
@@ -70,10 +70,17 @@ class CoordPlayer extends React.Component {
               id: 6,
               ytId: '',
               ytLength: 400,
-              ytStart: 0,
+              // ytStart: 0,
               xCoord: -50,
-              selected: true
+              selected: false
             }]
+          }
+        ],
+        jumps: [ // list of places where the timeline changes coordinates
+          {
+            id: 1,
+            xCoord: 0, // xCoord where the jump takes place
+            coordinateId: 0 // id of coordinate to jump to
           }
         ]
       }
