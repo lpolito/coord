@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const port = process.env.PORT || 3001;
 
-require('./routes')(app);
+require('./api/')(app);
 
 // START THE SERVER
 app.listen(port, () => {

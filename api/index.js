@@ -1,9 +1,11 @@
+const ytVideos = require('./../models/google/youtube/videos');
 const express = require('express');
 
 module.exports = (app) => {
   const router = express.Router();
 
   router.get('/', (req, res) => {
+    ytVideos.get();
     res.json({ message: 'hooray! welcome to our api!' });
   });
 
