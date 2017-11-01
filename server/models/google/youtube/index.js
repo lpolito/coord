@@ -1,5 +1,8 @@
-const google = require('./../');
+const google = require('./../google');
+const videos = require('./videos');
 
 const youtube = google.youtube('v3');
 
-module.exports = youtube;
+module.exports = {
+  videos: videos(youtube)
+};

@@ -1,11 +1,13 @@
 const _ = require('lodash');
-const ytVideos = require('./../../models/google/youtube/videos');
+const ytVideos = require('./../../models/google/youtube').videos;
+const timeUtils = require('./../../utils').time;
 
 const get = (req, res) => {
   let coord;
   new Promise((resolve) => {
     // fake data from db
     coord = {
+      id: req.params.id,
       title: 'First attempt at coordinations',
       angles: [
         {
@@ -30,7 +32,7 @@ const get = (req, res) => {
         videoPromises.push(ytVideos.get(coordinate.ytId)
           .then((video) => {
             // TODO: parse what duration actually means (eg PT4M12S)
-            coordinate.ytLength = video.contentDetails.duration;
+            coordinate.ytLength = timeUtils.ytDurationToSeconds(video.contentDetails.duration);
           }));
       });
     });
@@ -42,4 +44,6 @@ const get = (req, res) => {
     });
 };
 
-module.exports.get = get;
+module.exports = {
+  get
+};
