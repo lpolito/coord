@@ -1,10 +1,11 @@
 {
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "node server/server.js",
+    "server": "nodemon server/server.js",
     "client": "node start-client.js"
   },
   "devDependencies": {
-    "concurrently": "^3.5.0"
+    "concurrently": "^3.5.0",
+    "nodemon": "^1.12.1"
   }
 }
