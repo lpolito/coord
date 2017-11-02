@@ -5,6 +5,8 @@ const timeUtils = require('./../../utils').time;
 const get = (req, res) => {
   let coord;
   new Promise((resolve) => {
+    // TODO if req.params.id there, get one, else get all
+
     // fake data from db
     coord = {
       id: req.params.id,

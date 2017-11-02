@@ -1,10 +1,10 @@
-const Promise = require('bluebird');
+const promise = require('bluebird');
 const google = require('googleapis');
 
 const youtube = google.youtube('v3');
 
 const get = ytId =>
-  Promise.promisify(youtube.videos.list)({
+  promise.promisify(youtube.videos.list)({
     id: ytId,
     part: 'snippet,contentDetails'
   })

@@ -1,11 +1,11 @@
 // const ytVideos = require('./../models/google/youtube/videos');
 const express = require('express');
-const coord = require('./coord');
+const coords = require('./coords');
 
 module.exports = (app) => {
   const router = express.Router();
 
-  router.use(coord);
+  router.use(coords);
 
   // all of our routes will be prefixed with /api
   app.use('/api', router);
