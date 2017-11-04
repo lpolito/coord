@@ -16,7 +16,7 @@ google.options({
   auth: 'AIzaSyDLWZ_wsNwvHnF91EuDYO_FdDc5xV7F7Tw'
 });
 
-require('./api/')(app);
+require('./routes/')(app);
 
 // START THE SERVER
 app.listen(config.port, () => {

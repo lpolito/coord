@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const ytVideos = require('./../../models/google/youtube').videos;
+const ytVideos = require('./../../apis/google/youtube').videos;
 const coords = require('./../../models/db/coords');
 const timeUtils = require('./../../utils').time;
 
