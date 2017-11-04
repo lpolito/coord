@@ -1,11 +1,14 @@
 const _ = require('lodash');
 const ytVideos = require('./../../models/google/youtube').videos;
+const coords = require('./../../models/db/coords');
 const timeUtils = require('./../../utils').time;
 
 const get = (req, res) => {
   let coord;
   new Promise((resolve) => {
     // TODO if req.params.id there, get one, else get all
+
+    coords();
 
     // fake data from db
     coord = {
