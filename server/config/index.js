@@ -20,11 +20,15 @@ const defaults = {
 
   // postgres
   pg: {
-    host: '',
-    port: 5432,
-    database: '',
-    user: '',
-    password: ''
+    client: 'pg',
+    connection: {
+      host: '',
+      port: 5432,
+      database: '',
+      user: '',
+      password: ''
+    },
+    useNullAsDefault: true
   }
 };
 

@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const ytVideos = require('./../../apis/google/youtube').videos;
-const coords = require('./../../models/db/coords');
+const Coord = require('./../../models/coord');
 const timeUtils = require('./../../utils').time;
 
 const get = (req, res) => {
@@ -8,7 +8,31 @@ const get = (req, res) => {
   new Promise((resolve) => {
     // TODO if req.params.id there, get one, else get all
 
-    coords();
+    Coord.query()
+      .insertGraph({
+        title: 'First attempt at coordinations',
+        angles: [
+          {
+            author: 'YouTube Star 1',
+            coordinates: [{
+              ytId: 'BMTM0eTDYK8',
+              xCoord: 0
+            }]
+          },
+          {
+            author: 'Some guy',
+            coordinates: [{
+              ytId: 'BMTM0eTDYK8',
+              xCoord: 200
+            }]
+          }
+        ]
+      })
+      .then((coords) => {
+        // console log
+        console.log(coords);
+      })
+      .catch(err => console.log(err));
 
     // fake data from db
     coord = {
