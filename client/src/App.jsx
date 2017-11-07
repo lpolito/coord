@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './App.css';
 import Header from './components/header/header';
 import Nav from './components/nav/nav';
-import CoordPlayer from './views/coord-player/coord-player';
+import CoordPlayerContainer from './containers/coord-player.container';
 
 class App extends React.Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class App extends React.Component {
           <Nav navOpen={this.state.navOpen} />
           <div className={styles.content}>
             <div className={styles.center}>
-              <CoordPlayer />
+              <CoordPlayerContainer />
             </div>
           </div>
         </div>
