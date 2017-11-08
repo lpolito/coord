@@ -1,15 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+
 import 'font-awesome/css/font-awesome.min.css';
 
-import configureStore from './store/configureStore';
+import * as reducers from './store/reducers';
 import './constants.css';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-const store = configureStore();
+const store = createStore(
+  combineReducers(reducers),
+  applyMiddleware(thunk)
+);
 
 ReactDOM.render(
   <Provider store={store}>

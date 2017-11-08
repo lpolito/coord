@@ -1,5 +1,9 @@
-import initialState from './initialState';
-import { FETCH_COORD, RECEIVE_COORD } from '../actions/actionTypes';
+import Immutable from 'seamless-immutable';
+import { FETCH_COORD, RECEIVE_COORD } from './actionTypes';
+
+const initialState = Immutable({
+  coord: null
+});
 
 export default function coord(state = initialState.coord, action) {
   let newState;
@@ -14,4 +18,10 @@ export default function coord(state = initialState.coord, action) {
     default:
       return state;
   }
+}
+
+// selectors
+
+export function getSelectedCoordAngles(state) {
+  return state.coord.angles;
 }
