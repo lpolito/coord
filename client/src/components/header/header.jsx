@@ -1,12 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import toggleNav from './../../actions/navActions';
+
 import styles from './header.css';
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.toggleNav = this.toggleNav.bind(this);
+  }
+
+  toggleNav(e) {
+    e.preventDefault();
+    this.props.toggleNav();
+  }
+
   render() {
     return (
       <header className={styles.header}>
-        <button className={`${styles.burger} fa fa-bars`} onClick={this.props.toggleNav} />
+        <button className={`${styles.burger} fa fa-bars`} onClick={this.toggleNav} />
         <h1 className={styles.h1}>Coord</h1>
       </header>
     );
@@ -14,7 +28,20 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  toggleNav: PropTypes.func.isRequired
+  toggleNav: PropTypes.func
 };
 
-export default Header;
+Header.defaultProps = {
+  toggleNav: {}
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    toggleNav: bindActionCreators(toggleNav, dispatch)
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Header);

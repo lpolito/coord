@@ -26,7 +26,10 @@ class Angle extends React.Component {
 }
 
 Angle.propTypes = {
-  angle: PropTypes.arrayOf(PropTypes.object).isRequired,
+  angle: PropTypes.shape({
+    author: PropTypes.string,
+    coordinates: PropTypes.array
+  }).isRequired,
   tStartDiff: PropTypes.number.isRequired
 };
 

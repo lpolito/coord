@@ -14,14 +14,19 @@ class Coordinate extends React.Component {
 
     return (
       <div className={styles.coordinate} style={style}>
-        {this.props.coordinate.length}
+        {this.props.coordinate.ytLength}
       </div>
     );
   }
 }
 
 Coordinate.propTypes = {
-  coordinate: PropTypes.objectOf(PropTypes.shape({})).isRequired,
+  coordinate: PropTypes.objectOf(PropTypes.shape({
+    id: PropTypes.number,
+    ytId: PropTypes.string,
+    ytLength: PropTypes.number,
+    xCoord: PropTypes.number
+  })).isRequired,
   tStartDiff: PropTypes.number.isRequired
 };
 

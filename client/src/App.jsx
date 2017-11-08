@@ -5,26 +5,12 @@ import Nav from './components/nav/nav';
 import CoordPlayerContainer from './containers/coord-player.container';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      navOpen: false
-    };
-
-    this.toggleNav = this.toggleNav.bind(this);
-  }
-
-  toggleNav(e) {
-    e.preventDefault();
-    this.setState({ navOpen: !this.state.navOpen });
-  }
-
   render() {
     return (
       <div className={styles.page}>
-        <Header toggleNav={this.toggleNav} />
+        <Header />
         <div className={styles.app}>
-          <Nav navOpen={this.state.navOpen} />
+          <Nav />
           <div className={styles.content}>
             <div className={styles.center}>
               <CoordPlayerContainer />

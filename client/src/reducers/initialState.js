@@ -1,3 +1,4 @@
 export default {
-  coord: null
+  coord: null,
+  navOpen: false
 };

@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import styles from './nav.css';
 
 class Nav extends React.Component {
@@ -65,7 +67,17 @@ class Nav extends React.Component {
 }
 
 Nav.propTypes = {
-  navOpen: PropTypes.bool.isRequired
+  navOpen: PropTypes.bool
 };
 
-export default Nav;
+Nav.defaultProps = {
+  navOpen: false
+};
+
+function mapStateToProps(state) {
+  return {
+    navOpen: state.navOpen
+  };
+}
+
+export default connect(mapStateToProps)(Nav);
