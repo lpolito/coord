@@ -25,7 +25,7 @@ class Timeline extends React.Component {
       <Angle key={angle.id} angle={angle} tStartDiff={this.props.tStartDiff} />);
 
     const style = {
-      width: `${this.props.length}px`
+      width: this.props.length
     };
 
     return (
