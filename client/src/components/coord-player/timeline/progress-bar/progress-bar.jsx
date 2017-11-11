@@ -1,73 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Animated from 'animated/lib/targets/react-dom';
+import * as rpc from 'react-player-controls';
 import styles from './progress-bar.css';
 
 class ProgressBar extends React.Component {
-  componentWillMount() {
-    this.animation = new Animated.Value(this.props.progress);
-  }
+  constructor(props) {
+    super(props);
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.progress !== this.props.progress) {
-      Animated.timing(this.animation, {
-        toValue: this.props.progress,
-        duration: this.props.duration
-      }).start();
-    }
+    this.timer = null;
+
+    this.state = {
+      isSeekable: true
+    };
   }
 
   render() {
-    const {
-      height
-    } = this.props;
-
-    const tPositionInterpolated = this.animation.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['0%', '100%'],
-      extrapolate: 'clamp'
-    });
-
     return (
-      <div
-        className={styles.progressContainer}
-        style={{ height }}
-      >
-        <Animated.div
+      <div className={styles.progressContainer} >
+        <rpc.ProgressBar
           className={styles.progressBar}
-          style={{
-            width: tPositionInterpolated
+          childClasses={{
+            elapsed: styles.elapsed,
+            intent: styles.intent,
+            handle: styles.handle,
+            seek: styles.seek
           }}
+          totalTime={this.props.tLength}
+          currentTime={this.props.playerTime}
+          isSeekable={this.state.isSeekable}
+          onSeek={time => this.setState(() => ({ currentTime: time }))}
+          onSeekStart={time => this.setState(() => ({ lastSeekStart: time }))}
+          onSeekEnd={time => this.setState(() => ({ lastSeekEnd: time }))}
+          onIntent={time => this.setState(() => ({ lastIntent: time }))}
         />
-        <Animated.div
-          className={styles.slider}
-          style={{
-            transform: [{ translate: tPositionInterpolated }]
-          }}
-        >
-          <div
-            className={styles.indicator}
-            style={{
-              height: 100, // TODO base off number of angles?
-              marginTop: this.props.height
-            }}
-          />
-        </Animated.div>
       </div>
     );
   }
 }
 
 ProgressBar.propTypes = {
-  height: PropTypes.number,
-  duration: PropTypes.number,
-  progress: PropTypes.number
-};
-
-ProgressBar.defaultProps = {
-  height: 10,
-  duration: 100,
-  progress: 0
+  tLength: PropTypes.number.isRequired,
+  playerTime: PropTypes.number.isRequired
 };
 
 export default ProgressBar;

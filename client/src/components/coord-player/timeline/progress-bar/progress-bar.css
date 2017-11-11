@@ -1,16 +1,23 @@
 .progressContainer {
   flex: 1;
   flex-direction: row;
-  position: relative;
   background-color: rgba(0, 0, 0, .5);
+  height: 10px;
 }
 
 .progressBar {
+  position: relative;
+}
+
+.elapsed,
+.intent,
+.handle,
+.seek {
+  height: 10px;
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+}
+
+.elapsed {
   background-color: rgba(255, 99, 71, .8);
 }
 
@@ -20,7 +27,7 @@
   right: 0;
   top: 0;
   bottom: 0;
-  border-left: 4px solid rgba(255, 255, 255, .8);;
+  border-left: 4px solid rgba(255, 255, 255, .8);
   margin-right: 4px;
 }
 

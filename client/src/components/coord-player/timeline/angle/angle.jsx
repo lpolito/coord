@@ -4,6 +4,13 @@ import styles from './angle.css';
 import Coordinate from './coordinate/coordinate';
 
 class Angle extends React.Component {
+  shouldComponentUpdate() {
+    // console.log(nextProps);
+    // console.log(nextState);
+    // TODO only rerender angle if it becomes currently active/inactive in player view
+    return false; // no rerendering for now
+  }
+
   render() {
     const coordinates = this.props.angle.coordinates.map(coordinate =>
       (

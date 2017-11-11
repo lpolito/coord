@@ -1,4 +1,4 @@
-import coord from './coords/reducer';
+import coord from './coord/reducer';
 import navOpen from './nav/reducer';
 
 export {

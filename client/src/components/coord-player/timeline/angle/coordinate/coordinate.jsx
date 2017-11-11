@@ -21,12 +21,12 @@ class Coordinate extends React.Component {
 }
 
 Coordinate.propTypes = {
-  coordinate: PropTypes.objectOf(PropTypes.shape({
+  coordinate: PropTypes.shape({
     id: PropTypes.number,
     ytId: PropTypes.string,
     ytLength: PropTypes.number,
     xCoord: PropTypes.number
-  })).isRequired,
+  }).isRequired,
   tStartDiff: PropTypes.number.isRequired
 };
 
