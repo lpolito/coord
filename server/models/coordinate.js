@@ -1,6 +1,6 @@
 const path = require('path');
 const objection = require('objection');
-// const Angle = require('./angle');
+const Jump = require('./jump');
 
 class Coordinate extends objection.Model {
   static get tableName() {
@@ -23,6 +23,15 @@ class Coordinate extends objection.Model {
 
   static get relationMappings() {
     return {
+      // coordinate has many jumps
+      jumps: {
+        relation: objection.Model.HasManyRelation,
+        modelClass: Jump,
+        join: {
+          from: 'coordinates.id',
+          to: 'jumps.coordinateId'
+        }
+      },
       // coordinate belongs to one angle
       angle: {
         relation: objection.Model.BelongsToOneRelation,

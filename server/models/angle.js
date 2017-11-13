@@ -1,7 +1,6 @@
 const path = require('path');
 const objection = require('objection');
 const Coordinate = require('./coordinate');
-// const Coord = require('./coord');
 
 class Angle extends objection.Model {
   static get tableName() {

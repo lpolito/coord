@@ -3,15 +3,17 @@ const ytVideos = require('./../../apis/google/youtube').videos;
 const Coord = require('./../../models/coord');
 const Angle = require('./../../models/angle');
 const Coordinate = require('./../../models/coordinate');
+const Jump = require('./../../models/jump');
 const timeUtils = require('./../../utils').time;
 
 const get = (req, res) => {
   Coord
     .query()
     .findById(req.params.id)
-    .eager('angles.coordinates')
+    .eager('angles.coordinates.jumps')
     .omit(Angle, ['coordId', 'createdAt', 'updatedAt'])
     .omit(Coordinate, ['angleId', 'createdAt', 'updatedAt'])
+    .omit(Jump, ['coordinateId', 'createdAt', 'updatedAt'])
     .then((coord) => {
       const ytVideoPromises = [];
       _.forEach(coord.angles, (angle) => {
