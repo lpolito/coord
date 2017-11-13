@@ -4,3 +4,10 @@
   height: 30px;
   position: absolute;
 }
+
+.jump {
+  height: 100%;
+  width: 2px;
+  background-color: red;
+  position: absolute;
+}

@@ -65,3 +65,29 @@ export default function coord(state = initialState.coord, action) {
 // export function getCoordAngles(state) {
 //   return state.coord.angles;
 // }
+
+export function getCoordinates(state) {
+  const coordinates = [];
+  _.forEach(state.coord.angles, (angle) => {
+    coordinates.push(...angle.coordinates);
+  });
+  return coordinates;
+}
+
+export function getCoordinate(state, coordinateId) {
+  return _.find(getCoordinates(state), c => c.id === coordinateId);
+}
+
+export function getJumps(state) {
+  const unorderedTJumps = [];
+  _.forEach(getCoordinates(state), (coordinate) => {
+    _.forEach(coordinate.jumps, (jump) => {
+      unorderedTJumps.push({
+        ...jump,
+        // timeline jump xCoord (tXCoord) = jump.xCoordRel + coordinate xCoord + tStartDiff
+        tXCoord: jump.xCoordRel + coordinate.xCoord + Math.abs(state.coord.tStart)
+      });
+    });
+  });
+  return unorderedTJumps;
+}

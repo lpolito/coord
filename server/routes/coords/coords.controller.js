@@ -13,7 +13,7 @@ const get = (req, res) => {
     .eager('angles.coordinates.jumps')
     .omit(Angle, ['coordId', 'createdAt', 'updatedAt'])
     .omit(Coordinate, ['angleId', 'createdAt', 'updatedAt'])
-    .omit(Jump, ['coordinateId', 'createdAt', 'updatedAt'])
+    .omit(Jump, ['createdAt', 'updatedAt'])
     .then((coord) => {
       const ytVideoPromises = [];
       _.forEach(coord.angles, (angle) => {

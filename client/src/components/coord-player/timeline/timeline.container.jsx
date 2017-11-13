@@ -1,7 +1,9 @@
 import React from 'react';
+import * as _ from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Timeline from './timeline';
+import * as coordSelectors from './../../../store/coord/reducer';
 
 class TimelineContainer extends React.Component {
   constructor(props) {
@@ -10,17 +12,34 @@ class TimelineContainer extends React.Component {
     this.timer = null;
 
     this.state = {
-      playerTime: 0
+      playerTime: 0,
+      currentCoordinateId: null
     };
   }
 
   componentDidMount() {
     this.timer = window.setInterval(() => {
+      // increase player's current time
       this.setState({
         ...this.state,
-        playerTime: (this.state.playerTime + 1)// % this.state.totalTime ???
+        playerTime: (this.state.playerTime + 1)
       });
+
+      // get jumps before playerTime
+      const pastJumps = _.filter(this.props.tJumps, j => j.tXCoord < this.state.playerTime);
+      const lastJump = _.last(pastJumps);
+
+      if (lastJump && lastJump.coordinateId !== this.state.currentCoordinateId) {
+        console.log(_.find(this.props.coordinates, c => c.id === lastJump.coordinateId));
+        // currentCoordinateId changed, update state
+        this.setState({
+          ...this.state,
+          currentCoordinateId: lastJump.coordinateId
+        });
+        console.log(`coordinateId ${lastJump.coordinateId} has been reached!`);
+      }
     }, 1000);
+    console.log(this.props.tJumps);
   }
 
   componentWillUnmount() {
@@ -44,18 +63,31 @@ TimelineContainer.propTypes = {
     angles: PropTypes.arrayOf(PropTypes.shape({})),
     tStart: PropTypes.number,
     tLength: PropTypes.number
-  })
+  }),
+  tJumps: PropTypes.arrayOf(PropTypes.shape({
+    xCoordRel: PropTypes.number,
+    coordinateId: PropTypes.number,
+    tXCoord: PropTypes.number
+  })),
+  coordinates: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    ytId: PropTypes.string,
+    xCoord: PropTypes.number
+  }))
 };
 
 TimelineContainer.defaultProps = {
-  coord: {}
+  coord: {},
+  tJumps: [],
+  coordinates: []
 };
 
 function mapStateToProps(state) {
   return {
-    // coord available right away as parent (coord-player.container)
-    // doesn't load timeline until coord is loaded
-    coord: state.coord
+    // coord available right away from parent (coord-player.container)
+    coord: state.coord,
+    tJumps: _.sortBy(coordSelectors.getJumps(state), 'tXCoord'),
+    coordinates: coordSelectors.getCoordinates(state)
   };
 }
 
