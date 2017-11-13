@@ -6,15 +6,17 @@ import ProgressBar from './progress-bar/progress-bar';
 
 class Timeline extends React.Component {
   render() {
-    const angles = this.props.angles.map(angle =>
-      <Angle key={angle.id} angle={angle} tStartDiff={this.props.tStartDiff} />);
-
-    const style = {
-      width: this.props.tLength
-    };
+    const angles = this.props.angles.map(angle => (
+      <Angle
+        key={angle.id}
+        angle={angle}
+        tLength={this.props.tLength}
+        tStartDiff={this.props.tStartDiff}
+      />
+    ));
 
     return (
-      <div className={styles.timeline} style={style}>
+      <div className={styles.timeline}>
         <ProgressBar tLength={this.props.tLength} playerTime={this.props.playerTime} />
         <div className={styles.angles}>
           {angles}

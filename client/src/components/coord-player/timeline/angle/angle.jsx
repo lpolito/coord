@@ -17,6 +17,7 @@ class Angle extends React.Component {
         <Coordinate
           key={coordinate.id}
           coordinate={coordinate}
+          tLength={this.props.tLength}
           tStartDiff={this.props.tStartDiff}
         />
       ));
@@ -37,6 +38,7 @@ Angle.propTypes = {
     author: PropTypes.string,
     coordinates: PropTypes.array
   }).isRequired,
+  tLength: PropTypes.number.isRequired,
   tStartDiff: PropTypes.number.isRequired
 };
 

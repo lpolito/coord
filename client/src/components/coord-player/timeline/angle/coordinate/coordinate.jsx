@@ -4,12 +4,12 @@ import styles from './coordinate.css';
 
 class Coordinate extends React.Component {
   render() {
-    const getLeft = xCoord => `${xCoord + this.props.tStartDiff}px`;
-    const getWidth = ytLength => `${ytLength}px`;
+    // given pixel width / position, figure out what percentage should be
+    const calculatePercent = pixels => (pixels / this.props.tLength) * 100;
 
     const style = {
-      transform: `translate(${getLeft(this.props.coordinate.xCoord)}`,
-      width: getWidth(this.props.coordinate.ytLength)
+      left: `${calculatePercent(this.props.coordinate.xCoord + this.props.tStartDiff)}%`,
+      width: `${calculatePercent(this.props.coordinate.ytLength)}%`
     };
 
     return (
@@ -27,6 +27,7 @@ Coordinate.propTypes = {
     ytLength: PropTypes.number,
     xCoord: PropTypes.number
   }).isRequired,
+  tLength: PropTypes.number.isRequired,
   tStartDiff: PropTypes.number.isRequired
 };
 
