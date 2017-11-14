@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './angle.css';
-import Coordinate from './coordinate/coordinate';
+import CoordinateContainer from './coordinate/coordinate.container';
 
 class Angle extends React.Component {
   shouldComponentUpdate() {
@@ -14,12 +14,7 @@ class Angle extends React.Component {
   render() {
     const coordinates = this.props.angle.coordinates.map(coordinate =>
       (
-        <Coordinate
-          key={coordinate.id}
-          coordinate={coordinate}
-          tLength={this.props.tLength}
-          tStartDiff={this.props.tStartDiff}
-        />
+        <CoordinateContainer key={coordinate} coordinateId={coordinate} />
       ));
 
     return (
@@ -36,10 +31,8 @@ class Angle extends React.Component {
 Angle.propTypes = {
   angle: PropTypes.shape({
     author: PropTypes.string,
-    coordinates: PropTypes.array
-  }).isRequired,
-  tLength: PropTypes.number.isRequired,
-  tStartDiff: PropTypes.number.isRequired
+    coordinates: PropTypes.arrayOf(PropTypes.number)
+  }).isRequired
 };
 
 export default Angle;

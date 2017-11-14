@@ -25,7 +25,7 @@ class ProgressBar extends React.Component {
             handle: styles.handle,
             seek: styles.seek
           }}
-          totalTime={this.props.tLength}
+          totalTime={this.props.timelineInfo.tLength}
           currentTime={this.props.playerTime}
           isSeekable={this.state.isSeekable}
           onSeek={time => this.setState(() => ({ currentTime: time }))}
@@ -39,7 +39,9 @@ class ProgressBar extends React.Component {
 }
 
 ProgressBar.propTypes = {
-  tLength: PropTypes.number.isRequired,
+  timelineInfo: PropTypes.shape({
+    tLength: PropTypes.number
+  }).isRequired,
   playerTime: PropTypes.number.isRequired
 };
 

@@ -4,8 +4,11 @@ function url() {
   return '/api/coords/4';
 }
 
-export function receiveCoord(json) {
-  return { type: types.RECEIVE_COORD, coord: json };
+export function deserializeCoord(coord) {
+  return {
+    type: types.DESERIALIZE_COORD,
+    coord
+  };
 }
 
 export function fetchCoord() {
@@ -20,5 +23,5 @@ export function fetchCoord() {
       }
     })
       .then(response => response.json())
-      .then(json => dispatch(receiveCoord(json)));
+      .then(json => dispatch(deserializeCoord(json)));
 }

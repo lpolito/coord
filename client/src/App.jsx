@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './App.css';
 import Header from './components/header/header';
 import Nav from './components/nav/nav';
-import CoordPlayerContainer from './containers/coord-player.container';
+import CoordPlayerContainer from './components/coord-player/coord-player.container';
 
 class App extends React.Component {
   render() {
