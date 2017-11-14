@@ -119,11 +119,6 @@ CoordPlayerContainer.propTypes = {
   }),
   coord: PropTypes.shape({}),
   coordLoaded: PropTypes.bool
-  // TODO make an angle container
-  // angles: PropTypes.arrayOf(PropTypes.shape({
-  //   ytId: PropTypes.string,
-  //   xCoord: PropTypes.number
-  // }))
 };
 
 CoordPlayerContainer.defaultProps = {

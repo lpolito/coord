@@ -16,9 +16,8 @@ class CoordinateContainer extends React.Component {
   }
 }
 
-/* eslint-disable */
 CoordinateContainer.propTypes = {
-  coordinateId: PropTypes.number.isRequired,
+  coordinateId: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
   coordinate: PropTypes.shape({}),
   jumps: PropTypes.arrayOf(PropTypes.shape({})),
   timelineInfo: PropTypes.shape({})
@@ -33,8 +32,10 @@ CoordinateContainer.defaultProps = {
 function mapStateToProps(state, props) {
   return {
     coordinate: coordSelectors.getCoordinate(state, props.coordinateId),
-    jumps: coordSelectors.getJumpsByIds(state,
-      coordSelectors.getCoordinate(state, props.coordinateId).jumps),
+    jumps: coordSelectors.getJumpsByIds(
+      state,
+      coordSelectors.getCoordinate(state, props.coordinateId).jumps
+    ),
     timelineInfo: coordSelectors.getTimelineInfo(state)
   };
 }
