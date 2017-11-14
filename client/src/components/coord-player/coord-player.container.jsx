@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as coordActions from './../store/coord/actions';
+import * as coordActions from './../../store/coord/actions';
+import * as coordSelectors from './../../store/coord/reducer';
 
-import CoordPlayer from './../components/coord-player/coord-player';
+import CoordPlayer from './coord-player';
 
 class CoordPlayerContainer extends React.Component {
   /* constructor(props) {
@@ -104,7 +105,7 @@ class CoordPlayerContainer extends React.Component {
   // }
 
   render() {
-    if (this.props && this.props.coord && this.props.coord.id) {
+    if (this.props && this.props && this.props.coordLoaded) {
       return this.renderComponents();
     }
     // return this.renderLoadingScreen();
@@ -116,26 +117,20 @@ CoordPlayerContainer.propTypes = {
   coordActions: PropTypes.shape({
     fetchCoord: PropTypes.func
   }),
-  coord: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-    angles: PropTypes.arrayOf(PropTypes.shape({
-      ytId: PropTypes.string,
-      xCoord: PropTypes.number
-    })),
-    tStart: PropTypes.number,
-    tLength: PropTypes.number
-  })
+  coord: PropTypes.shape({}),
+  coordLoaded: PropTypes.bool
 };
 
 CoordPlayerContainer.defaultProps = {
   coordActions: {},
-  coord: {}
+  coord: {},
+  coordLoaded: false
 };
 
 function mapStateToProps(state) {
   return {
-    coord: state.coord
+    coord: coordSelectors.getCoord(state),
+    coordLoaded: coordSelectors.coordLoaded(state)
   };
 }
 

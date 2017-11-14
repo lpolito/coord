@@ -1,23 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './timeline.css';
-import Angle from './angle/angle';
-import ProgressBar from './progress-bar/progress-bar';
+import AngleContainer from './angle/angle.container';
+import ProgressBarContainer from './progress-bar/progress-bar.container';
 
 class Timeline extends React.Component {
   render() {
     const angles = this.props.angles.map(angle => (
-      <Angle
-        key={angle.id}
-        angle={angle}
-        tLength={this.props.tLength}
-        tStartDiff={this.props.tStartDiff}
-      />
+      <AngleContainer key={angle} angleId={angle} />
     ));
 
     return (
       <div className={styles.timeline}>
-        <ProgressBar tLength={this.props.tLength} playerTime={this.props.playerTime} />
+        <ProgressBarContainer playerTime={this.props.playerTime} />
         <div className={styles.angles}>
           {angles}
         </div>
@@ -27,9 +22,7 @@ class Timeline extends React.Component {
 }
 
 Timeline.propTypes = {
-  angles: PropTypes.arrayOf(PropTypes.object).isRequired,
-  tLength: PropTypes.number.isRequired,
-  tStartDiff: PropTypes.number.isRequired,
+  angles: PropTypes.arrayOf(PropTypes.number).isRequired,
   playerTime: PropTypes.number.isRequired
 };
 

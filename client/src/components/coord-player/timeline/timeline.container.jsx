@@ -39,7 +39,6 @@ class TimelineContainer extends React.Component {
         console.log(`coordinateId ${lastJump.coordinateId} has been reached!`);
       }
     }, 1000);
-    console.log(this.props.tJumps);
   }
 
   componentWillUnmount() {
@@ -48,22 +47,13 @@ class TimelineContainer extends React.Component {
 
   render() {
     return (
-      <Timeline
-        angles={this.props.coord.angles}
-        tLength={this.props.coord.tLength}
-        tStartDiff={Math.abs(this.props.coord.tStart)}
-        playerTime={this.state.playerTime}
-      />
+      <Timeline angles={this.props.angleIds} playerTime={this.state.playerTime} />
     );
   }
 }
 
 TimelineContainer.propTypes = {
-  coord: PropTypes.shape({
-    angles: PropTypes.arrayOf(PropTypes.shape({})),
-    tStart: PropTypes.number,
-    tLength: PropTypes.number
-  }),
+  angleIds: PropTypes.arrayOf(PropTypes.number),
   tJumps: PropTypes.arrayOf(PropTypes.shape({
     xCoordRel: PropTypes.number,
     coordinateId: PropTypes.number,
@@ -77,16 +67,15 @@ TimelineContainer.propTypes = {
 };
 
 TimelineContainer.defaultProps = {
-  coord: {},
+  angleIds: [],
   tJumps: [],
   coordinates: []
 };
 
 function mapStateToProps(state) {
   return {
-    // coord available right away from parent (coord-player.container)
-    coord: state.coord,
-    tJumps: _.sortBy(coordSelectors.getJumps(state), 'tXCoord'),
+    angleIds: coordSelectors.getCoord(state).angles,
+    tJumps: _.sortBy(coordSelectors.getTJumps(state), 'tXCoord'),
     coordinates: coordSelectors.getCoordinates(state)
   };
 }
