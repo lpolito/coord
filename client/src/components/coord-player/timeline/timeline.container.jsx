@@ -1,9 +1,12 @@
 import React from 'react';
 import * as _ from 'lodash';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Timeline from './timeline';
 import * as coordSelectors from './../../../store/coord/reducer';
+import * as playerSelectors from './../../../store/player/reducer';
+import changeCoordinate from './../../../store/player/actions';
 
 class TimelineContainer extends React.Component {
   constructor(props) {
@@ -12,13 +15,12 @@ class TimelineContainer extends React.Component {
     this.timer = null;
 
     this.state = {
-      playerTime: 0,
-      currentCoordinateId: null
+      playerTime: 0
     };
   }
 
   componentDidMount() {
-    this.timer = window.setInterval(() => {
+    const timerFunc = () => {
       // increase player's current time
       this.setState({
         ...this.state,
@@ -29,16 +31,17 @@ class TimelineContainer extends React.Component {
       const pastJumps = _.filter(this.props.tJumps, j => j.tXCoord < this.state.playerTime);
       const lastJump = _.last(pastJumps);
 
-      if (lastJump && lastJump.coordinateId !== this.state.currentCoordinateId) {
-        console.log(_.find(this.props.coordinates, c => c.id === lastJump.coordinateId));
-        // currentCoordinateId changed, update state
-        this.setState({
-          ...this.state,
-          currentCoordinateId: lastJump.coordinateId
-        });
+      if (lastJump && lastJump.coordinateId !== this.props.currentPlayer.curCoordinateId) {
+        const newCoordinate = _.find(this.props.coordinates, c => c.id === lastJump.coordinateId);
+
+        // coordinate has changed, update player
+        this.props.changeCoordinate(newCoordinate.id, newCoordinate.ytId, lastJump.xCoordRel);
         console.log(`coordinateId ${lastJump.coordinateId} has been reached!`);
+        console.log(newCoordinate);
       }
-    }, 1000);
+    };
+
+    this.timer = window.setInterval(timerFunc.bind(this), 1000);
   }
 
   componentWillUnmount() {
@@ -61,23 +64,38 @@ TimelineContainer.propTypes = {
   })),
   coordinates: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
-    ytId: PropTypes.string,
-    xCoord: PropTypes.number
-  }))
+    ytId: PropTypes.string
+  })),
+  currentPlayer: PropTypes.shape({
+    curCoordinateId: PropTypes.number
+  }),
+  changeCoordinate: PropTypes.func
 };
 
 TimelineContainer.defaultProps = {
   angleIds: [],
   tJumps: [],
-  coordinates: []
+  coordinates: [],
+  currentPlayer: {},
+  changeCoordinate: null
 };
 
 function mapStateToProps(state) {
   return {
     angleIds: coordSelectors.getCoord(state).angles,
     tJumps: _.sortBy(coordSelectors.getTJumps(state), 'tXCoord'),
-    coordinates: coordSelectors.getCoordinates(state)
+    coordinates: coordSelectors.getCoordinates(state),
+    currentPlayer: playerSelectors.getCurrentPlayer(state)
   };
 }
 
-export default connect(mapStateToProps)(TimelineContainer);
+function mapDispatchToProps(dispatch) {
+  return {
+    changeCoordinate: bindActionCreators(changeCoordinate, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TimelineContainer);

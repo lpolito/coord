@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Coordinate from './coordinate';
 import * as coordSelectors from './../../../../../store/coord/reducer';
+import * as playerSelectors from './../../../../../store/player/reducer';
 
 class CoordinateContainer extends React.Component {
   render() {
@@ -11,6 +12,7 @@ class CoordinateContainer extends React.Component {
         coordinate={this.props.coordinate}
         jumps={this.props.jumps}
         timelineInfo={this.props.timelineInfo}
+        nowPlaying={this.props.currentPlayer.curCoordinateId === this.props.coordinateId}
       />
     );
   }
@@ -20,13 +22,17 @@ CoordinateContainer.propTypes = {
   coordinateId: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
   coordinate: PropTypes.shape({}),
   jumps: PropTypes.arrayOf(PropTypes.shape({})),
-  timelineInfo: PropTypes.shape({})
+  timelineInfo: PropTypes.shape({}),
+  currentPlayer: PropTypes.shape({
+    curCoordinateId: PropTypes.number
+  })
 };
 
 CoordinateContainer.defaultProps = {
   coordinate: null,
   jumps: [],
-  timelineInfo: null
+  timelineInfo: null,
+  currentPlayer: {}
 };
 
 function mapStateToProps(state, props) {
@@ -36,7 +42,8 @@ function mapStateToProps(state, props) {
       state,
       coordSelectors.getCoordinate(state, props.coordinateId).jumps
     ),
-    timelineInfo: coordSelectors.getTimelineInfo(state)
+    timelineInfo: coordSelectors.getTimelineInfo(state),
+    currentPlayer: playerSelectors.getCurrentPlayer(state)
   };
 }
 

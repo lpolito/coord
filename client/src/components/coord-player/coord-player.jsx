@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './coord-player.css';
-import Player from './player/player';
+import PlayerContainer from './player/player.container';
 import TimelineContainer from './timeline/timeline.container';
 
 class CoordPlayer extends React.Component {
@@ -10,7 +10,7 @@ class CoordPlayer extends React.Component {
     return (
       <div className={styles.coordPlayer}>
         <h2 className={styles.header}>{this.props.coord.title}</h2>
-        <Player />
+        <PlayerContainer />
         <div className={styles.timelineCont}>
           <TimelineContainer />
         </div>

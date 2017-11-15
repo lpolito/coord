@@ -14,7 +14,9 @@ class AngleContainer extends React.Component {
 
 AngleContainer.propTypes = {
   angleId: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
-  angle: PropTypes.shape({})
+  angle: PropTypes.shape({
+    coordinates: PropTypes.arrayOf(PropTypes.number)
+  })
 };
 
 AngleContainer.defaultProps = {

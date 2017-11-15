@@ -22,7 +22,8 @@ class Coordinate extends React.Component {
 
     const style = {
       left: `${calcCoordinatePercents(this.props.coordinate.xCoord + this.props.timelineInfo.tStartDiff)}%`,
-      width: `${calcCoordinatePercents(this.props.coordinate.ytLength)}%`
+      width: `${calcCoordinatePercents(this.props.coordinate.ytLength)}%`,
+      backgroundColor: this.props.nowPlaying ? 'palegreen' : undefined
     };
 
     return (
@@ -49,7 +50,8 @@ Coordinate.propTypes = {
   timelineInfo: PropTypes.shape({
     tLength: PropTypes.number,
     tStartDiff: PropTypes.number
-  }).isRequired
+  }).isRequired,
+  nowPlaying: PropTypes.bool.isRequired
 };
 
 export default Coordinate;
