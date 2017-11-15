@@ -82,10 +82,10 @@ export function getTimelineInfo(state) {
   // timelineLength = end of last coord - start of first coord
   const tLength = tEnd - tStart;
   return {
-    tStart,
-    tEnd,
-    tLength,
-    tStartDiff: Math.abs(tStart)
+    tStart, // position of start of earliest coordinate
+    tEnd, // position of end of latest coordinate
+    tLength, // length between earliest start and latest end
+    tStartDiff: Math.abs(tStart) // delta value of tStart (use for timeline positioning)
   };
 }
 

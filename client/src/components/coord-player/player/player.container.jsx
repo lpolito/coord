@@ -6,15 +6,15 @@ import * as playerSelectors from './../../../store/player/reducer';
 
 class PlayerContainer extends React.Component {
   render() {
+    const getYtUrl = (ytId, ytStart) => `https://www.youtube-nocookie.com/embed/${ytId}?rel=0&amp;controls=0&amp;showinfo=0&autoplay=1${ytStart ? `&start=${ytStart}` : ''}`;
     return (
-      <Player currentPlayer={this.props.currentPlayer} />
+      <Player ytUrl={getYtUrl(this.props.currentPlayer.ytId, this.props.currentPlayer.ytStart)} />
     );
   }
 }
 
 PlayerContainer.propTypes = {
   currentPlayer: PropTypes.shape({
-    curCoordinateId: PropTypes.number,
     ytId: PropTypes.string,
     ytStart: PropTypes.number
   })

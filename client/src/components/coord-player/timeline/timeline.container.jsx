@@ -19,6 +19,14 @@ class TimelineContainer extends React.Component {
     };
   }
 
+  componentWillMount() {
+    // TODO change this to a jump which is the default coord start location
+    // get first coordinate and play
+    const firstCoordinate = _.find(this.props.coordinates, c =>
+      c.xCoord === this.props.timelineInfo.tStart);
+    this.props.changeCoordinate(firstCoordinate.id, firstCoordinate.ytId, 0);
+  }
+
   componentDidMount() {
     const timerFunc = () => {
       // increase player's current time
@@ -36,8 +44,6 @@ class TimelineContainer extends React.Component {
 
         // coordinate has changed, update player
         this.props.changeCoordinate(newCoordinate.id, newCoordinate.ytId, lastJump.xCoordRel);
-        console.log(`coordinateId ${lastJump.coordinateId} has been reached!`);
-        console.log(newCoordinate);
       }
     };
 
@@ -66,6 +72,9 @@ TimelineContainer.propTypes = {
     id: PropTypes.number,
     ytId: PropTypes.string
   })),
+  timelineInfo: PropTypes.shape({
+    tStart: PropTypes.number
+  }),
   currentPlayer: PropTypes.shape({
     curCoordinateId: PropTypes.number
   }),
@@ -76,6 +85,7 @@ TimelineContainer.defaultProps = {
   angleIds: [],
   tJumps: [],
   coordinates: [],
+  timelineInfo: null,
   currentPlayer: {},
   changeCoordinate: null
 };
@@ -85,6 +95,7 @@ function mapStateToProps(state) {
     angleIds: coordSelectors.getCoord(state).angles,
     tJumps: _.sortBy(coordSelectors.getTJumps(state), 'tXCoord'),
     coordinates: coordSelectors.getCoordinates(state),
+    timelineInfo: coordSelectors.getTimelineInfo(state),
     currentPlayer: playerSelectors.getCurrentPlayer(state)
   };
 }
