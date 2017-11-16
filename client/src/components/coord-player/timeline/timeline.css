@@ -2,8 +2,8 @@
   background-color: rgb(100, 100, 100);
 }
 
-.angles {
-  width: 100%;
+.coordinates {
   display: flex;
   flex-direction: column;
+  position: relative;
 }

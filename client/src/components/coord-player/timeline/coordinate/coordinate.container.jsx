@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Coordinate from './coordinate';
-import * as coordSelectors from './../../../../../store/coord/reducer';
-import * as playerSelectors from './../../../../../store/player/reducer';
+import * as coordSelectors from './../../../../store/coord/reducer';
+import * as playerSelectors from './../../../../store/player/reducer';
 
 class CoordinateContainer extends React.Component {
   render() {

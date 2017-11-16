@@ -1,6 +1,5 @@
 const path = require('path');
 const objection = require('objection');
-const Jump = require('./jump');
 
 class Coordinate extends objection.Model {
   static get tableName() {
@@ -16,7 +15,7 @@ class Coordinate extends objection.Model {
         id: { type: 'integer' },
         ytId: { type: 'string', minLength: 1, maxLength: 255 },
         xCoord: { type: 'integer' },
-        angleId: { type: 'integer' }
+        coordId: { type: 'integer' }
       }
     };
   }
@@ -26,19 +25,19 @@ class Coordinate extends objection.Model {
       // coordinate has many jumps
       jumps: {
         relation: objection.Model.HasManyRelation,
-        modelClass: Jump,
+        modelClass: path.join(__dirname, '/jump'),
         join: {
           from: 'coordinates.id',
           to: 'jumps.coordinateId'
         }
       },
-      // coordinate belongs to one angle
-      angle: {
+      // coordinate belongs to one coord
+      coord: {
         relation: objection.Model.BelongsToOneRelation,
-        modelClass: path.join(__dirname, '/angle'),
+        modelClass: path.join(__dirname, '/coord'),
         join: {
-          from: 'coordinates.angleId',
-          to: 'angles.id'
+          from: 'coordinates.coordId',
+          to: 'coords.id'
         }
       }
     };

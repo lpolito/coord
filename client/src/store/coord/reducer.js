@@ -38,14 +38,6 @@ export function getCoord(state) {
   return _.get(state, ['coord', 'entities', 'coord', state.coord.id], null);
 }
 
-export function getAngles(state) {
-  return _.values(_.get(state, ['coord', 'entities', 'angles']));
-}
-
-export function getAngle(state, angleId) {
-  return _.get(state, ['coord', 'entities', 'angles', angleId]);
-}
-
 export function getCoordinates(state) {
   return _.values(_.get(state, ['coord', 'entities', 'coordinates']));
 }

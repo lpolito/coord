@@ -6,13 +6,9 @@ const coordinateSchema = new schema.Entity('coordinates', {
   jumps: [jumpSchema]
 });
 
-const angleSchema = new schema.Entity('angles', {
+const coordSchema = new schema.Entity('coord', {
   coordinates: [coordinateSchema]
 });
 
-const coordSchema = new schema.Entity('coord', {
-  angles: [angleSchema]
-});
 
-
-export { coordSchema, angleSchema, coordinateSchema, jumpSchema };
+export { coordSchema, coordinateSchema, jumpSchema };

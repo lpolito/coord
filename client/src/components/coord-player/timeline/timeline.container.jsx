@@ -56,13 +56,13 @@ class TimelineContainer extends React.Component {
 
   render() {
     return (
-      <Timeline angles={this.props.angleIds} playerTime={this.state.playerTime} />
+      <Timeline coordinateIds={this.props.coordinateIds} playerTime={this.state.playerTime} />
     );
   }
 }
 
 TimelineContainer.propTypes = {
-  angleIds: PropTypes.arrayOf(PropTypes.number),
+  coordinateIds: PropTypes.arrayOf(PropTypes.number),
   tJumps: PropTypes.arrayOf(PropTypes.shape({
     xCoordRel: PropTypes.number,
     coordinateId: PropTypes.number,
@@ -82,7 +82,7 @@ TimelineContainer.propTypes = {
 };
 
 TimelineContainer.defaultProps = {
-  angleIds: [],
+  coordinateIds: [],
   tJumps: [],
   coordinates: [],
   timelineInfo: null,
@@ -92,7 +92,7 @@ TimelineContainer.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    angleIds: coordSelectors.getCoord(state).angles,
+    coordinateIds: coordSelectors.getCoord(state).coordinates,
     tJumps: _.sortBy(coordSelectors.getTJumps(state), 'tXCoord'),
     coordinates: coordSelectors.getCoordinates(state),
     timelineInfo: coordSelectors.getTimelineInfo(state),

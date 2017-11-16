@@ -1,8 +1,12 @@
 .coordinate {
   background-color: white;
-  margin: 5px 0;
+  margin-top: 5px;
   height: 30px;
-  position: absolute;
+  position: relative;
+}
+
+.coordinate:last-of-type {
+  margin-bottom: 5px;
 }
 
 .jump {

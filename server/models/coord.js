@@ -1,5 +1,5 @@
+const path = require('path');
 const objection = require('objection');
-const Angle = require('./angle');
 
 class Coord extends objection.Model {
   static get tableName() {
@@ -20,13 +20,13 @@ class Coord extends objection.Model {
 
   static get relationMappings() {
     return {
-      // coord has many angles
-      angles: {
+      // coord has many coordinates
+      coordinates: {
         relation: objection.Model.HasManyRelation,
-        modelClass: Angle,
+        modelClass: path.join(__dirname, '/coordinate'),
         join: {
           from: 'coords.id',
-          to: 'angles.coordId'
+          to: 'coordinates.coordId'
         }
       }
     };
