@@ -6,10 +6,15 @@ import * as playerSelectors from './../../../store/player/reducer';
 
 class PlayerContainer extends React.Component {
   render() {
-    const getYtUrl = (ytId, ytStart) => `https://www.youtube-nocookie.com/embed/${ytId}?rel=0&amp;controls=0&amp;showinfo=0&autoplay=1${ytStart ? `&start=${ytStart}` : ''}`;
-    return (
-      <Player ytUrl={getYtUrl(this.props.currentPlayer.ytId, this.props.currentPlayer.ytStart)} />
-    );
+    if (this.props.currentPlayer && this.props.currentPlayer.ytId) {
+      return (
+        <Player
+          ytId={this.props.currentPlayer.ytId}
+          ytStart={this.props.currentPlayer.ytStart}
+        />
+      );
+    }
+    return (null);
   }
 }
 
