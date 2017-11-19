@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import Immutable from 'seamless-immutable';
-import { CHANGE_VIDEO } from './actionTypes';
+import { CHANGE_VIDEO, CHANGE_STATE } from './actionTypes';
 
 const initialState = Immutable({
   player: {
@@ -19,6 +19,10 @@ export default function player(state = initialState.player, action) {
         curCoordinateId: action.coordinateId,
         ytId: action.ytId,
         ytStart: action.ytStart
+      });
+    case CHANGE_STATE:
+      return state.merge({
+        state: action.state
       });
     default:
       return state;

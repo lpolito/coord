@@ -22,6 +22,10 @@ class Player extends React.Component {
           videoId={this.props.ytId}
           className={styles.ytPlayer}
           opts={opts}
+          onPause={this.props.onPause}
+          onPlay={this.props.onPlay}
+          onEnd={this.props.onPause}
+          onError={this.props.onPause}
         />
       </div>
     );
@@ -30,7 +34,9 @@ class Player extends React.Component {
 
 Player.propTypes = {
   ytId: PropTypes.string.isRequired,
-  ytStart: PropTypes.number.isRequired
+  ytStart: PropTypes.number.isRequired,
+  onPause: PropTypes.func.isRequired,
+  onPlay: PropTypes.func.isRequired
 };
 
 export default Player;

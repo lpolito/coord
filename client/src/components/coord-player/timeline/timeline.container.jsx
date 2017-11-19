@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Timeline from './timeline';
 import * as coordSelectors from './../../../store/coord/reducer';
 import * as playerSelectors from './../../../store/player/reducer';
-import changeCoordinate from './../../../store/player/actions';
+import * as playerActions from './../../../store/player/actions';
 
 class TimelineContainer extends React.Component {
   constructor(props) {
@@ -24,11 +24,16 @@ class TimelineContainer extends React.Component {
     // get first coordinate and play
     const firstCoordinate = _.find(this.props.coordinates, c =>
       c.xCoord === this.props.timelineInfo.tStart);
-    this.props.changeCoordinate(firstCoordinate.id, firstCoordinate.ytId, 0);
+    this.props.playerActions.changeVideo(firstCoordinate.id, firstCoordinate.ytId, 0);
   }
 
   componentDidMount() {
     const timerFunc = () => {
+      if (this.props.currentPlayer.state === 'paused') {
+        // player is paused, stop the progression of time
+        return;
+      }
+
       // increase player's current time
       this.setState({
         ...this.state,
@@ -43,7 +48,11 @@ class TimelineContainer extends React.Component {
         const newCoordinate = _.find(this.props.coordinates, c => c.id === lastJump.coordinateId);
 
         // coordinate has changed, update player
-        this.props.changeCoordinate(newCoordinate.id, newCoordinate.ytId, lastJump.xCoordRel);
+        this.props.playerActions.changeVideo(
+          newCoordinate.id,
+          newCoordinate.ytId,
+          lastJump.xCoordRel
+        );
       }
     };
 
@@ -76,9 +85,12 @@ TimelineContainer.propTypes = {
     tStart: PropTypes.number
   }),
   currentPlayer: PropTypes.shape({
-    curCoordinateId: PropTypes.number
+    curCoordinateId: PropTypes.number,
+    state: PropTypes.string
   }),
-  changeCoordinate: PropTypes.func
+  playerActions: PropTypes.shape({
+    changeVideo: PropTypes.func
+  })
 };
 
 TimelineContainer.defaultProps = {
@@ -87,7 +99,7 @@ TimelineContainer.defaultProps = {
   coordinates: [],
   timelineInfo: null,
   currentPlayer: {},
-  changeCoordinate: null
+  playerActions: {}
 };
 
 function mapStateToProps(state) {
@@ -102,7 +114,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeCoordinate: bindActionCreators(changeCoordinate, dispatch)
+    playerActions: bindActionCreators(playerActions, dispatch)
   };
 }
 
