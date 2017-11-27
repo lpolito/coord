@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as coordActions from './../../store/coord/actions';
-import * as coordSelectors from './../../store/coord/reducer';
+import * as coordPlayerActions from './../../store/coordPlayer/actions';
+import * as coordPlayerSelectors from './../../store/coordPlayer/selectors';
 
 import CoordPlayer from './coord-player';
 
 class CoordPlayerContainer extends React.Component {
   componentWillMount() {
-    this.props.coordActions.fetchCoord();
+    this.props.coordPlayerActions.fetchCoord();
   }
 
   renderComponents() {
@@ -32,7 +32,7 @@ class CoordPlayerContainer extends React.Component {
 }
 
 CoordPlayerContainer.propTypes = {
-  coordActions: PropTypes.shape({
+  coordPlayerActions: PropTypes.shape({
     fetchCoord: PropTypes.func
   }),
   coord: PropTypes.shape({}),
@@ -40,21 +40,21 @@ CoordPlayerContainer.propTypes = {
 };
 
 CoordPlayerContainer.defaultProps = {
-  coordActions: {},
+  coordPlayerActions: {},
   coord: {},
   coordLoaded: false
 };
 
 function mapStateToProps(state) {
   return {
-    coord: coordSelectors.getCoord(state),
-    coordLoaded: coordSelectors.coordLoaded(state)
+    coord: coordPlayerSelectors.getCoord(state),
+    coordLoaded: coordPlayerSelectors.coordLoaded(state)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    coordActions: bindActionCreators(coordActions, dispatch)
+    coordPlayerActions: bindActionCreators(coordPlayerActions, dispatch)
   };
 }
 

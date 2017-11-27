@@ -12,7 +12,7 @@ class Player extends React.Component {
         start: this.props.ytStart, // start position of video
         enablejsapi: 1, // allows to be controlled by api
         controls: 0, // hide player controls
-        autoplay: 1 // autoplay (TODO enable after first coordinate)
+        autoplay: this.props.autoPlay ? 1 : 0 // autoplay
       }
     };
 
@@ -35,6 +35,7 @@ class Player extends React.Component {
 Player.propTypes = {
   ytId: PropTypes.string.isRequired,
   ytStart: PropTypes.number.isRequired,
+  autoPlay: PropTypes.bool.isRequired,
   onPause: PropTypes.func.isRequired,
   onPlay: PropTypes.func.isRequired
 };

@@ -1,9 +1,7 @@
-import coord from './coord/reducer';
-import player from './player/reducer';
+import coordPlayer from './coordPlayer/reducer';
 import navOpen from './nav/reducer';
 
 export {
-  coord,
-  player,
+  coordPlayer,
   navOpen
 };

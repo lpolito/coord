@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Coordinate from './coordinate';
-import * as coordSelectors from './../../../../store/coord/reducer';
-import * as playerSelectors from './../../../../store/player/reducer';
+import * as coordPlayerSelectors from './../../../../store/coordPlayer/selectors';
 
 class CoordinateContainer extends React.Component {
   render() {
@@ -12,7 +11,7 @@ class CoordinateContainer extends React.Component {
         coordinate={this.props.coordinate}
         jumps={this.props.jumps}
         timelineInfo={this.props.timelineInfo}
-        nowPlaying={this.props.currentPlayer.curCoordinateId === this.props.coordinateId}
+        nowPlaying={this.props.currentPlayingCoordinate.id === this.props.coordinateId}
       />
     );
   }
@@ -23,8 +22,8 @@ CoordinateContainer.propTypes = {
   coordinate: PropTypes.shape({}),
   jumps: PropTypes.arrayOf(PropTypes.shape({})),
   timelineInfo: PropTypes.shape({}),
-  currentPlayer: PropTypes.shape({
-    curCoordinateId: PropTypes.number
+  currentPlayingCoordinate: PropTypes.shape({
+    id: PropTypes.number
   })
 };
 
@@ -32,18 +31,18 @@ CoordinateContainer.defaultProps = {
   coordinate: null,
   jumps: [],
   timelineInfo: null,
-  currentPlayer: {}
+  currentPlayingCoordinate: {}
 };
 
 function mapStateToProps(state, props) {
   return {
-    coordinate: coordSelectors.getCoordinate(state, props.coordinateId),
-    jumps: coordSelectors.getJumpsByIds(
+    coordinate: coordPlayerSelectors.getCoordinate(state, props.coordinateId),
+    jumps: coordPlayerSelectors.getJumpsByIds(
       state,
-      coordSelectors.getCoordinate(state, props.coordinateId).jumps
+      coordPlayerSelectors.getCoordinate(state, props.coordinateId).jumps
     ),
-    timelineInfo: coordSelectors.getTimelineInfo(state),
-    currentPlayer: playerSelectors.getCurrentPlayer(state)
+    timelineInfo: coordPlayerSelectors.getTimelineInfo(state),
+    currentPlayingCoordinate: coordPlayerSelectors.getCurrentPlayingCoordinate(state)
   };
 }
 

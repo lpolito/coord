@@ -3,27 +3,35 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Player from './player';
-import * as playerSelectors from './../../../store/player/reducer';
-import * as playerActions from './../../../store/player/actions';
+import * as coordPlayerSelectors from './../../../store/coordPlayer/selectors';
+import * as coordPlayerActions from './../../../store/coordPlayer/actions';
 
 class PlayerContainer extends React.Component {
+  constructor() {
+    super();
+    this.autoPlay = false;
+  }
+
   render() {
-    if (!this.props.currentPlayer || !this.props.currentPlayer.ytId) {
+    if (!this.props.currentPlayingCoordinate || !this.props.currentPlayingCoordinate.ytId) {
       return (null);
     }
 
     const onPause = () => {
-      this.props.playerActions.updateState('paused');
+      this.props.coordPlayerActions.updatePlayerState('paused');
     };
 
     const onPlay = () => {
-      this.props.playerActions.updateState('playing');
+      this.props.coordPlayerActions.updatePlayerState('playing');
+      // autplay is enabled when the player begins playing
+      this.autoPlay = true;
     };
 
     return (
       <Player
-        ytId={this.props.currentPlayer.ytId}
-        ytStart={this.props.currentPlayer.ytStart}
+        ytId={this.props.currentPlayingCoordinate.ytId}
+        ytStart={this.props.currentPlayingCoordinate.ytStart}
+        autoPlay={this.autoPlay}
         onPause={onPause}
         onPlay={onPlay}
       />
@@ -32,29 +40,29 @@ class PlayerContainer extends React.Component {
 }
 
 PlayerContainer.propTypes = {
-  currentPlayer: PropTypes.shape({
+  currentPlayingCoordinate: PropTypes.shape({
     ytId: PropTypes.string,
     ytStart: PropTypes.number
   }),
-  playerActions: PropTypes.shape({
-    updateState: PropTypes.func
+  coordPlayerActions: PropTypes.shape({
+    updatePlayerState: PropTypes.func
   })
 };
 
 PlayerContainer.defaultProps = {
-  currentPlayer: {},
-  playerActions: {}
+  currentPlayingCoordinate: {},
+  coordPlayerActions: {}
 };
 
 function mapStateToProps(state) {
   return {
-    currentPlayer: playerSelectors.getCurrentPlayer(state)
+    currentPlayingCoordinate: coordPlayerSelectors.getCurrentPlayingCoordinate(state)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    playerActions: bindActionCreators(playerActions, dispatch)
+    coordPlayerActions: bindActionCreators(coordPlayerActions, dispatch)
   };
 }
 

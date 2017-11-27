@@ -1,53 +1,33 @@
 import * as _ from 'lodash';
 import Immutable from 'seamless-immutable';
-import { normalize } from 'normalizr';
-import { coordSchema } from './schemas';
-import { DESERIALIZE_COORD } from './actionTypes';
-
-const initialState = Immutable({
-  coord: {
-    id: 4, // temp until we have url param
-    isLoaded: false
-  },
-  state: 'paused',
-  players: [
-    {
-      ytId: '',
-      ytStart: 0
-    }
-  ]
-});
-
-export default function coord(state = initialState.coord, action) {
-  switch (action.type) {
-    case DESERIALIZE_COORD:
-      // we are using using seamless-immutable, merge the new entities into the state
-      return state.merge([normalize(action, { coord: coordSchema }), { isLoaded: true }]);
-    default:
-      return state;
-  }
-}
-
-// selectors
 
 export function coordLoaded(state) {
-  return state && state.coord && state.coord.isLoaded;
+  return state && state.coordPlayer && state.coordPlayer.isLoaded;
+}
+
+export function getCoordPlayerMap(state) {
+  return _.get(state, ['coordPlayer'], null);
 }
 
 export function getCoord(state) {
-  return _.get(state, ['coord', 'entities', 'coord', state.coord.id], null);
+  const coordPlayer = getCoordPlayerMap(state);
+  return _.get(coordPlayer, ['entities', 'coord', coordPlayer.coordId], null);
 }
 
 export function getCoordinates(state) {
-  return _.values(_.get(state, ['coord', 'entities', 'coordinates']));
+  return _.values(_.get(getCoordPlayerMap(state), ['entities', 'coordinates']));
 }
 
 export function getCoordinate(state, coordinateId) {
-  return _.get(state, ['coord', 'entities', 'coordinates', coordinateId]);
+  return _.get(getCoordPlayerMap(state), ['entities', 'coordinates', coordinateId], null);
 }
 
 export function getJumps(state) {
-  return _.values(_.get(state, ['coord', 'entities', 'jumps']));
+  return _.values(_.get(getCoordPlayerMap(state), ['entities', 'jumps']));
+}
+
+export function getJump(state, jumpId) {
+  return _.get(getCoordPlayerMap(state), ['entities', 'jumps', jumpId], null);
 }
 
 export function getJumpsByIds(state, jumpIds) {
@@ -90,4 +70,21 @@ export function getTJumps(state) {
     jump.tXCoord = jump.xCoordRel + coordinate.xCoord + timelineInfo.tStartDiff;
   });
   return jumps;
+}
+
+export function getDefaultCoordinateAndJump(state) {
+  const jump = getJump(state, getCoord(state).defaultJumpId);
+  return {
+    coordinate: getCoordinate(state, jump.coordinateId),
+    jump
+  };
+}
+
+
+export function getCurrentPlayerState(state) {
+  return _.get(getCoordPlayerMap(state), ['state'], null);
+}
+
+export function getCurrentPlayingCoordinate(state) {
+  return _.get(getCoordPlayerMap(state), ['curCoordinate'], null);
 }

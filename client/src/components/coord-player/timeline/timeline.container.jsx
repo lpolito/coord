@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Timeline from './timeline';
-import * as coordSelectors from './../../../store/coord/reducer';
-import * as playerSelectors from './../../../store/player/reducer';
-import * as playerActions from './../../../store/player/actions';
+import * as coordPlayerSelectors from './../../../store/coordPlayer/selectors';
+import * as coordPlayerActions from './../../../store/coordPlayer/actions';
 
 class TimelineContainer extends React.Component {
   constructor(props) {
@@ -20,16 +19,23 @@ class TimelineContainer extends React.Component {
   }
 
   componentWillMount() {
-    // TODO change this to a jump which is the default coord start location
-    // get first coordinate and play
-    const firstCoordinate = _.find(this.props.coordinates, c =>
-      c.xCoord === this.props.timelineInfo.tStart);
-    this.props.playerActions.changeVideo(firstCoordinate.id, firstCoordinate.ytId, 0);
+    // get default start time based on defCoordinateJump
+    this.setState({
+      ...this.state,
+      playerTime: this.props.defCoordinateJump.jump.xCoordRel
+    });
+
+    // play default coordinate
+    this.props.coordPlayerActions.changeCoordinate(
+      this.props.defCoordinateJump.coordinate.id,
+      this.props.defCoordinateJump.coordinate.ytId,
+      this.props.defCoordinateJump.jump.xCoordRel
+    );
   }
 
   componentDidMount() {
     const timerFunc = () => {
-      if (this.props.currentPlayer.state === 'paused') {
+      if (this.props.currentPlayerState === 'paused') {
         // player is paused, stop the progression of time
         return;
       }
@@ -44,11 +50,11 @@ class TimelineContainer extends React.Component {
       const pastJumps = _.filter(this.props.tJumps, j => j.tXCoord < this.state.playerTime);
       const lastJump = _.last(pastJumps);
 
-      if (lastJump && lastJump.coordinateId !== this.props.currentPlayer.curCoordinateId) {
+      if (lastJump && lastJump.coordinateId !== this.props.currentPlayingCoordinate.id) {
         const newCoordinate = _.find(this.props.coordinates, c => c.id === lastJump.coordinateId);
 
         // coordinate has changed, update player
-        this.props.playerActions.changeVideo(
+        this.props.coordPlayerActions.changeCoordinate(
           newCoordinate.id,
           newCoordinate.ytId,
           lastJump.xCoordRel
@@ -65,13 +71,15 @@ class TimelineContainer extends React.Component {
 
   render() {
     return (
-      <Timeline coordinateIds={this.props.coordinateIds} playerTime={this.state.playerTime} />
+      <Timeline coordinateIds={this.props.coord.coordinates} playerTime={this.state.playerTime} />
     );
   }
 }
 
 TimelineContainer.propTypes = {
-  coordinateIds: PropTypes.arrayOf(PropTypes.number),
+  coord: PropTypes.shape({
+    coordinates: PropTypes.arrayOf(PropTypes.number)
+  }),
   tJumps: PropTypes.arrayOf(PropTypes.shape({
     xCoordRel: PropTypes.number,
     coordinateId: PropTypes.number,
@@ -81,40 +89,49 @@ TimelineContainer.propTypes = {
     id: PropTypes.number,
     ytId: PropTypes.string
   })),
-  timelineInfo: PropTypes.shape({
-    tStart: PropTypes.number
+  currentPlayerState: PropTypes.string,
+  currentPlayingCoordinate: PropTypes.shape({
+    id: PropTypes.number
   }),
-  currentPlayer: PropTypes.shape({
-    curCoordinateId: PropTypes.number,
-    state: PropTypes.string
+  coordPlayerActions: PropTypes.shape({
+    changeCoordinate: PropTypes.func,
+    playDefaultCoordinate: PropTypes.func
   }),
-  playerActions: PropTypes.shape({
-    changeVideo: PropTypes.func
+  defCoordinateJump: PropTypes.shape({
+    coordinate: PropTypes.shape({
+      id: PropTypes.number,
+      ytId: PropTypes.string
+    }),
+    jump: PropTypes.shape({
+      xCoordRel: PropTypes.number
+    })
   })
 };
 
 TimelineContainer.defaultProps = {
-  coordinateIds: [],
+  coord: {},
   tJumps: [],
   coordinates: [],
-  timelineInfo: null,
-  currentPlayer: {},
-  playerActions: {}
+  currentPlayerState: 'paused',
+  currentPlayingCoordinate: {},
+  coordPlayerActions: {},
+  defCoordinateJump: {}
 };
 
 function mapStateToProps(state) {
   return {
-    coordinateIds: coordSelectors.getCoord(state).coordinates,
-    tJumps: _.sortBy(coordSelectors.getTJumps(state), 'tXCoord'),
-    coordinates: coordSelectors.getCoordinates(state),
-    timelineInfo: coordSelectors.getTimelineInfo(state),
-    currentPlayer: playerSelectors.getCurrentPlayer(state)
+    coord: coordPlayerSelectors.getCoord(state),
+    tJumps: _.sortBy(coordPlayerSelectors.getTJumps(state), 'tXCoord'),
+    coordinates: coordPlayerSelectors.getCoordinates(state),
+    currentPlayerState: coordPlayerSelectors.getCurrentPlayerState(state),
+    currentPlayingCoordinate: coordPlayerSelectors.getCurrentPlayingCoordinate(state),
+    defCoordinateJump: coordPlayerSelectors.getDefaultCoordinateAndJump(state)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    playerActions: bindActionCreators(playerActions, dispatch)
+    coordPlayerActions: bindActionCreators(coordPlayerActions, dispatch)
   };
 }
 

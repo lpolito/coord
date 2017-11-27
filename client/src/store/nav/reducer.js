@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { TOGGLE_NAV } from './actionTypes';
+import * as types from './actionTypes';
 
 const initialState = Immutable({
   navOpen: false
@@ -7,7 +7,7 @@ const initialState = Immutable({
 
 export default function nav(state = initialState.navOpen, action) {
   switch (action.type) {
-    case TOGGLE_NAV:
+    case types.TOGGLE_NAV:
       return !state;
     default:
       return state;

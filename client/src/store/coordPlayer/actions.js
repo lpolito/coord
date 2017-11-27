@@ -25,3 +25,19 @@ export function fetchCoord() {
       .then(response => response.json())
       .then(json => dispatch(deserializeCoord(json)));
 }
+
+export function changeCoordinate(coordinateId, ytId, ytStart) {
+  return {
+    type: types.CHANGE_COORDINATE,
+    coordinateId,
+    ytId,
+    ytStart
+  };
+}
+
+export function updatePlayerState(state) {
+  return {
+    type: types.CHANGE_PLAYER_STATE,
+    state
+  };
+}
