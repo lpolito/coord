@@ -1,21 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './coordinate.css';
+import checkerboard from './../../../../images/checkerboard.svg';
 
 class Coordinate extends React.Component {
   render() {
     // given xCoordRel of jump, figure out what left position should be
     const calcJumpLeft = pixels => (pixels / this.props.coordinate.ytLength) * 100;
-    const jumps = this.props.jumps.map(jump =>
-      (
+    const jumps = this.props.jumps.map((jump) => {
+      let style = {
+        left: `${calcJumpLeft(jump.xCoordRel)}%`
+      };
+
+      if (this.props.defaultJumpId === jump.id) {
+        style = {
+          ...style,
+          backgroundImage: `url(${checkerboard})`,
+          backgroundSize: '6px 6px',
+          width: '9px'
+        };
+      }
+
+      return (
         <div
           key={jump.id}
           className={styles.jump}
-          style={{
-            left: `${calcJumpLeft(jump.xCoordRel)}%`
-          }}
+          style={style}
         />
-      ));
+      );
+    });
 
     // given pixel width / position, figure out what percentage should be
     const calcCoordinatePercents = pixels => (pixels / this.props.timelineInfo.tLength) * 100;
@@ -51,7 +64,8 @@ Coordinate.propTypes = {
     tLength: PropTypes.number,
     tStartDiff: PropTypes.number
   }).isRequired,
-  nowPlaying: PropTypes.bool.isRequired
+  nowPlaying: PropTypes.bool.isRequired,
+  defaultJumpId: PropTypes.number.isRequired
 };
 
 export default Coordinate;

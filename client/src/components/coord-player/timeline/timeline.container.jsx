@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Timeline from './timeline';
-import * as coordPlayerSelectors from './../../../store/coordPlayer/selectors';
-import * as coordPlayerActions from './../../../store/coordPlayer/actions';
+import * as cpSelectors from './../../../store/coordPlayer/selectors';
+import * as cpActions from './../../../store/coordPlayer/actions';
 
 class TimelineContainer extends React.Component {
   constructor(props) {
@@ -22,14 +22,14 @@ class TimelineContainer extends React.Component {
     // get default start time based on defCoordinateJump
     this.setState({
       ...this.state,
-      playerTime: this.props.defCoordinateJump.jump.xCoordRel
+      playerTime: this.props.defaultJump.xCoordRel
     });
 
     // play default coordinate
     this.props.coordPlayerActions.changeCoordinate(
-      this.props.defCoordinateJump.coordinate.id,
-      this.props.defCoordinateJump.coordinate.ytId,
-      this.props.defCoordinateJump.jump.xCoordRel
+      this.props.defaultCoordinate.id,
+      this.props.defaultCoordinate.ytId,
+      this.props.defaultJump.xCoordRel
     );
   }
 
@@ -97,14 +97,12 @@ TimelineContainer.propTypes = {
     changeCoordinate: PropTypes.func,
     playDefaultCoordinate: PropTypes.func
   }),
-  defCoordinateJump: PropTypes.shape({
-    coordinate: PropTypes.shape({
-      id: PropTypes.number,
-      ytId: PropTypes.string
-    }),
-    jump: PropTypes.shape({
-      xCoordRel: PropTypes.number
-    })
+  defaultJump: PropTypes.shape({
+    xCoordRel: PropTypes.number
+  }),
+  defaultCoordinate: PropTypes.shape({
+    id: PropTypes.number,
+    ytId: PropTypes.string
   })
 };
 
@@ -115,23 +113,25 @@ TimelineContainer.defaultProps = {
   currentPlayerState: 'paused',
   currentPlayingCoordinate: {},
   coordPlayerActions: {},
-  defCoordinateJump: {}
+  defaultJump: {},
+  defaultCoordinate: {}
 };
 
 function mapStateToProps(state) {
   return {
-    coord: coordPlayerSelectors.getCoord(state),
-    tJumps: _.sortBy(coordPlayerSelectors.getTJumps(state), 'tXCoord'),
-    coordinates: coordPlayerSelectors.getCoordinates(state),
-    currentPlayerState: coordPlayerSelectors.getCurrentPlayerState(state),
-    currentPlayingCoordinate: coordPlayerSelectors.getCurrentPlayingCoordinate(state),
-    defCoordinateJump: coordPlayerSelectors.getDefaultCoordinateAndJump(state)
+    coord: cpSelectors.getCoord(state),
+    tJumps: _.sortBy(cpSelectors.getTJumps(state), 'tXCoord'),
+    coordinates: cpSelectors.getCoordinates(state),
+    currentPlayerState: cpSelectors.getCurrentPlayerState(state),
+    currentPlayingCoordinate: cpSelectors.getCurrentPlayingCoordinate(state),
+    defaultJump: cpSelectors.getDefaultJump(state),
+    defaultCoordinate: cpSelectors.getDefaultCoordinate(state)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    coordPlayerActions: bindActionCreators(coordPlayerActions, dispatch)
+    coordPlayerActions: bindActionCreators(cpActions, dispatch)
   };
 }
 

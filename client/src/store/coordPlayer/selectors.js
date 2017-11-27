@@ -72,12 +72,12 @@ export function getTJumps(state) {
   return jumps;
 }
 
-export function getDefaultCoordinateAndJump(state) {
-  const jump = getJump(state, getCoord(state).defaultJumpId);
-  return {
-    coordinate: getCoordinate(state, jump.coordinateId),
-    jump
-  };
+export function getDefaultJump(state) {
+  return getJump(state, getCoord(state).defaultJumpId);
+}
+
+export function getDefaultCoordinate(state) {
+  return getCoordinate(state, getDefaultJump(state).coordinateId);
 }
 
 

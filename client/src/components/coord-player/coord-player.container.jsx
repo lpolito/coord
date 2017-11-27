@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as coordPlayerActions from './../../store/coordPlayer/actions';
-import * as coordPlayerSelectors from './../../store/coordPlayer/selectors';
+import * as cpActions from './../../store/coordPlayer/actions';
+import * as cpSelectors from './../../store/coordPlayer/selectors';
 
 import CoordPlayer from './coord-player';
 
@@ -47,14 +47,14 @@ CoordPlayerContainer.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    coord: coordPlayerSelectors.getCoord(state),
-    coordLoaded: coordPlayerSelectors.coordLoaded(state)
+    coord: cpSelectors.getCoord(state),
+    coordLoaded: cpSelectors.coordLoaded(state)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    coordPlayerActions: bindActionCreators(coordPlayerActions, dispatch)
+    coordPlayerActions: bindActionCreators(cpActions, dispatch)
   };
 }
 

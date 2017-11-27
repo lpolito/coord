@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Coordinate from './coordinate';
-import * as coordPlayerSelectors from './../../../../store/coordPlayer/selectors';
+import * as cpSelectors from './../../../../store/coordPlayer/selectors';
 
 class CoordinateContainer extends React.Component {
   render() {
@@ -12,6 +12,7 @@ class CoordinateContainer extends React.Component {
         jumps={this.props.jumps}
         timelineInfo={this.props.timelineInfo}
         nowPlaying={this.props.currentPlayingCoordinate.id === this.props.coordinateId}
+        defaultJumpId={this.props.defaultJump.id}
       />
     );
   }
@@ -24,6 +25,9 @@ CoordinateContainer.propTypes = {
   timelineInfo: PropTypes.shape({}),
   currentPlayingCoordinate: PropTypes.shape({
     id: PropTypes.number
+  }),
+  defaultJump: PropTypes.shape({
+    id: PropTypes.number
   })
 };
 
@@ -31,18 +35,20 @@ CoordinateContainer.defaultProps = {
   coordinate: null,
   jumps: [],
   timelineInfo: null,
-  currentPlayingCoordinate: {}
+  currentPlayingCoordinate: {},
+  defaultJump: {}
 };
 
 function mapStateToProps(state, props) {
   return {
-    coordinate: coordPlayerSelectors.getCoordinate(state, props.coordinateId),
-    jumps: coordPlayerSelectors.getJumpsByIds(
+    coordinate: cpSelectors.getCoordinate(state, props.coordinateId),
+    jumps: cpSelectors.getJumpsByIds(
       state,
-      coordPlayerSelectors.getCoordinate(state, props.coordinateId).jumps
+      cpSelectors.getCoordinate(state, props.coordinateId).jumps
     ),
-    timelineInfo: coordPlayerSelectors.getTimelineInfo(state),
-    currentPlayingCoordinate: coordPlayerSelectors.getCurrentPlayingCoordinate(state)
+    timelineInfo: cpSelectors.getTimelineInfo(state),
+    currentPlayingCoordinate: cpSelectors.getCurrentPlayingCoordinate(state),
+    defaultJump: cpSelectors.getDefaultJump(state)
   };
 }
 

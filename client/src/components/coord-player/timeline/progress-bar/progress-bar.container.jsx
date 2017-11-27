@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ProgressBar from './progress-bar';
-import * as coordPlayerSelectors from './../../../../store/coordPlayer/selectors';
+import * as cpSelectors from './../../../../store/coordPlayer/selectors';
 
 class ProgressBarContainer extends React.Component {
   render() {
@@ -23,7 +23,7 @@ ProgressBarContainer.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    timelineInfo: coordPlayerSelectors.getTimelineInfo(state)
+    timelineInfo: cpSelectors.getTimelineInfo(state)
   };
 }
 

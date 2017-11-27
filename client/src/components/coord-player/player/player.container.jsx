@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Player from './player';
-import * as coordPlayerSelectors from './../../../store/coordPlayer/selectors';
-import * as coordPlayerActions from './../../../store/coordPlayer/actions';
+import * as cpSelectors from './../../../store/coordPlayer/selectors';
+import * as cpActions from './../../../store/coordPlayer/actions';
 
 class PlayerContainer extends React.Component {
   constructor() {
@@ -56,13 +56,13 @@ PlayerContainer.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    currentPlayingCoordinate: coordPlayerSelectors.getCurrentPlayingCoordinate(state)
+    currentPlayingCoordinate: cpSelectors.getCurrentPlayingCoordinate(state)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    coordPlayerActions: bindActionCreators(coordPlayerActions, dispatch)
+    coordPlayerActions: bindActionCreators(cpActions, dispatch)
   };
 }
 
