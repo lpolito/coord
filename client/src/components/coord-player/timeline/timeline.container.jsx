@@ -26,7 +26,7 @@ class TimelineContainer extends React.Component {
     });
 
     // play default coordinate
-    this.props.coordPlayerActions.changeCoordinate(
+    this.props.cpActions.changeCoordinate(
       this.props.defaultCoordinate.id,
       this.props.defaultCoordinate.ytId,
       this.props.defaultJump.xCoordRel
@@ -45,21 +45,7 @@ class TimelineContainer extends React.Component {
         ...this.state,
         playerTime: (this.state.playerTime + 1)
       });
-
-      // get jumps before playerTime
-      const pastJumps = _.filter(this.props.tJumps, j => j.tXCoord < this.state.playerTime);
-      const lastJump = _.last(pastJumps);
-
-      if (lastJump && lastJump.coordinateId !== this.props.currentPlayingCoordinate.id) {
-        const newCoordinate = _.find(this.props.coordinates, c => c.id === lastJump.coordinateId);
-
-        // coordinate has changed, update player
-        this.props.coordPlayerActions.changeCoordinate(
-          newCoordinate.id,
-          newCoordinate.ytId,
-          lastJump.xCoordRel
-        );
-      }
+      this.playerSeek();
     };
 
     this.timer = window.setInterval(timerFunc.bind(this), 1000);
@@ -69,9 +55,48 @@ class TimelineContainer extends React.Component {
     window.clearInterval(this.timer);
   }
 
+  playerSeek(isManualSeek = false) {
+    // get jumps before playerTime
+    const pastJumps = _.filter(this.props.tJumps, j => j.tXCoord <= this.state.playerTime);
+    const lastJump = _.last(pastJumps);
+
+    // update coordinate if user seeks or a jump has been passed programmatically
+    if (isManualSeek ||
+      (lastJump && lastJump.coordinateId !== this.props.currentPlayingCoordinate.id)) {
+      const lastCoordinate = _.find(this.props.coordinates, c => c.id === lastJump.coordinateId);
+
+      // if user is seeking, calculate new youtube player time based on
+      // playerTime and starting position of last coordinate
+      // otherwise get from last jump
+      const ytTime = isManualSeek ?
+        this.state.playerTime - lastCoordinate.xCoord :
+        lastJump.xCoordRel;
+
+      // coordinate has changed, update player
+      this.props.cpActions.changeCoordinate(
+        lastCoordinate.id,
+        lastCoordinate.ytId,
+        ytTime
+      );
+    }
+  }
+
   render() {
+    const onSeek = (time) => {
+      // update player time
+      this.setState(() => ({
+        playerTime: time
+      }));
+      // change coordinates if necessary
+      this.playerSeek(true);
+    };
+
     return (
-      <Timeline coordinateIds={this.props.coord.coordinates} playerTime={this.state.playerTime} />
+      <Timeline
+        coordinateIds={this.props.coord.coordinates}
+        playerTime={this.state.playerTime}
+        onSeek={onSeek}
+      />
     );
   }
 }
@@ -91,9 +116,10 @@ TimelineContainer.propTypes = {
   })),
   currentPlayerState: PropTypes.string,
   currentPlayingCoordinate: PropTypes.shape({
-    id: PropTypes.number
+    id: PropTypes.number,
+    ytId: PropTypes.string
   }),
-  coordPlayerActions: PropTypes.shape({
+  cpActions: PropTypes.shape({
     changeCoordinate: PropTypes.func,
     playDefaultCoordinate: PropTypes.func
   }),
@@ -112,7 +138,7 @@ TimelineContainer.defaultProps = {
   coordinates: [],
   currentPlayerState: 'paused',
   currentPlayingCoordinate: {},
-  coordPlayerActions: {},
+  cpActions: {},
   defaultJump: {},
   defaultCoordinate: {}
 };
@@ -131,7 +157,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    coordPlayerActions: bindActionCreators(cpActions, dispatch)
+    cpActions: bindActionCreators(cpActions, dispatch)
   };
 }
 

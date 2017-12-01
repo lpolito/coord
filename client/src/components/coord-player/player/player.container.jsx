@@ -19,6 +19,8 @@ class PlayerContainer extends React.Component {
 
     const onPause = () => {
       this.props.coordPlayerActions.updatePlayerState('paused');
+      // disable autoplay when user pauses player (prevents playing on user seek)
+      this.autoPlay = false;
     };
 
     const onPlay = () => {

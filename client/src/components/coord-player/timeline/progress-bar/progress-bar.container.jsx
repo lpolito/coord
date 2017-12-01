@@ -7,14 +7,19 @@ import * as cpSelectors from './../../../../store/coordPlayer/selectors';
 class ProgressBarContainer extends React.Component {
   render() {
     return (
-      <ProgressBar timelineInfo={this.props.timelineInfo} playerTime={this.props.playerTime} />
+      <ProgressBar
+        timelineInfo={this.props.timelineInfo}
+        playerTime={this.props.playerTime}
+        onSeek={this.props.onSeek}
+      />
     );
   }
 }
 
 ProgressBarContainer.propTypes = {
   timelineInfo: PropTypes.shape({}),
-  playerTime: PropTypes.number.isRequired
+  playerTime: PropTypes.number.isRequired,
+  onSeek: PropTypes.func.isRequired
 };
 
 ProgressBarContainer.defaultProps = {

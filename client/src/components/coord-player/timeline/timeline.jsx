@@ -12,7 +12,10 @@ class Timeline extends React.Component {
 
     return (
       <div className={styles.timeline}>
-        <ProgressBarContainer playerTime={this.props.playerTime} />
+        <ProgressBarContainer
+          playerTime={this.props.playerTime}
+          onSeek={this.props.onSeek}
+        />
         <div className={styles.coordinates}>
           {coordinates}
         </div>
@@ -23,7 +26,8 @@ class Timeline extends React.Component {
 
 Timeline.propTypes = {
   coordinateIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-  playerTime: PropTypes.number.isRequired
+  playerTime: PropTypes.number.isRequired,
+  onSeek: PropTypes.func.isRequired
 };
 
 export default Timeline;
