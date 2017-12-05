@@ -19,7 +19,11 @@ const get = (req, res) => {
         ytVideoPromises.push(ytVideos.get(coordinate.ytId)
           .then((ytVideo) => {
             // parse yt duration to seconds
-            coordinate.ytLength = timeUtils.ytDurationToSeconds(ytVideo.contentDetails.duration);
+            coordinate.yt = {
+              title: ytVideo.snippet.title,
+              length: timeUtils.ytDurationToSeconds(ytVideo.contentDetails.duration),
+              thumbnailUrl: ytVideo.snippet.thumbnails.default.url
+            };
           }));
       });
 
@@ -27,6 +31,10 @@ const get = (req, res) => {
         .then(() => {
           res.send(coord);
         });
+    })
+    .catch((err) => {
+      // TODO catch errors in a user friendly way
+      res.send(err);
     });
 };
 

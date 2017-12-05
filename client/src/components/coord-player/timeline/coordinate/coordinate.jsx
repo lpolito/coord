@@ -6,15 +6,15 @@ import checkerboard from './../../../../images/checkerboard.svg';
 class Coordinate extends React.Component {
   render() {
     // given xCoordRel of jump, figure out what left position should be
-    const calcJumpLeft = pixels => (pixels / this.props.coordinate.ytLength) * 100;
+    const calcJumpLeft = pixels => (pixels / this.props.coordinate.yt.length) * 100;
     const jumps = this.props.jumps.map((jump) => {
-      let style = {
+      let jumpStyle = {
         left: `${calcJumpLeft(jump.xCoordRel)}%`
       };
 
       if (this.props.defaultJumpId === jump.id) {
-        style = {
-          ...style,
+        jumpStyle = {
+          ...jumpStyle,
           backgroundImage: `url(${checkerboard})`,
           backgroundSize: '6px 6px',
           width: '9px'
@@ -25,7 +25,7 @@ class Coordinate extends React.Component {
         <div
           key={jump.id}
           className={styles.jump}
-          style={style}
+          style={jumpStyle}
         />
       );
     });
@@ -33,16 +33,18 @@ class Coordinate extends React.Component {
     // given pixel width / position, figure out what percentage should be
     const calcCoordinatePercents = pixels => (pixels / this.props.timelineInfo.tLength) * 100;
 
-    const style = {
+    const coordinateStyle = {
       left: `${calcCoordinatePercents(this.props.coordinate.xCoord + this.props.timelineInfo.tStartDiff)}%`,
-      width: `${calcCoordinatePercents(this.props.coordinate.ytLength)}%`,
-      backgroundColor: this.props.nowPlaying ? 'palegreen' : undefined
+      width: `${calcCoordinatePercents(this.props.coordinate.yt.length)}%`,
+      backgroundColor: this.props.nowPlaying ? 'palegreen' : undefined,
+      backgroundImage: `url(${this.props.coordinate.yt.thumbnailUrl})`,
+      backgroundSize: 'auto 30px'
     };
 
     return (
-      <div className={styles.coordinate} style={style}>
+      <div className={styles.coordinate} style={coordinateStyle}>
         {jumps}
-        {this.props.coordinate.ytLength}
+        {this.props.coordinate.yt.length}
       </div>
     );
   }
@@ -52,7 +54,10 @@ Coordinate.propTypes = {
   coordinate: PropTypes.shape({
     id: PropTypes.number,
     ytId: PropTypes.string,
-    ytLength: PropTypes.number,
+    yt: PropTypes.shape({
+      length: PropTypes.number,
+      thumbnailUrl: PropTypes.string
+    }),
     xCoord: PropTypes.number,
     jumps: PropTypes.arrayOf(PropTypes.number)
   }).isRequired,

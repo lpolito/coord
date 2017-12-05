@@ -40,7 +40,7 @@ export function getTimelineInfo(state) {
 
   // calculate tLength
   _.forEach(getCoordinates(state), (coordinate) => {
-    const coordEnd = coordinate.xCoord + coordinate.ytLength;
+    const coordEnd = coordinate.xCoord + coordinate.yt.length;
     // get latest ending point
     if (coordEnd > tEnd) {
       tEnd = coordEnd;
