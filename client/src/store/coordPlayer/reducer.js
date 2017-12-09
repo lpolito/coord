@@ -12,7 +12,8 @@ const initialState = Immutable({
       id: null,
       ytId: null,
       ytStart: 0
-    }
+    },
+    time: 0 // current time on timeline
   }
 });
 
@@ -36,6 +37,10 @@ export default function coord(state = initialState.coordPlayer, action) {
     case types.CHANGE_PLAYER_STATE:
       return state.merge({
         state: action.state
+      });
+    case types.CHANGE_PLAYER_TIME:
+      return state.merge({
+        time: action.playerTime
       });
     default:
       return state;

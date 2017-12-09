@@ -41,3 +41,10 @@ export function updatePlayerState(state) {
     state
   };
 }
+
+export function updatePlayerTime(playerTime) {
+  return {
+    type: types.CHANGE_PLAYER_TIME,
+    playerTime
+  };
+}

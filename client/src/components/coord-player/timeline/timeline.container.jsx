@@ -12,18 +12,11 @@ class TimelineContainer extends React.Component {
     super(props);
 
     this.timer = null;
-
-    this.state = {
-      playerTime: 0
-    };
   }
 
   componentWillMount() {
     // get default start time based on defCoordinateJump
-    this.setState({
-      ...this.state,
-      playerTime: this.props.defaultJump.xCoordRel
-    });
+    this.props.cpActions.updatePlayerTime(this.props.defaultJump.xCoordRel);
 
     // play default coordinate
     this.props.cpActions.changeCoordinate(
@@ -41,10 +34,7 @@ class TimelineContainer extends React.Component {
       }
 
       // increase player's current time
-      this.setState({
-        ...this.state,
-        playerTime: (this.state.playerTime + 1)
-      });
+      this.props.cpActions.updatePlayerTime(this.props.playerTime + 1);
       this.playerSeek();
     };
 
@@ -57,7 +47,7 @@ class TimelineContainer extends React.Component {
 
   playerSeek(isManualSeek = false) {
     // get jumps before playerTime
-    const pastJumps = _.filter(this.props.tJumps, j => j.tXCoord <= this.state.playerTime);
+    const pastJumps = _.filter(this.props.tJumps, j => j.tXCoord <= this.props.playerTime);
     const lastJump = _.last(pastJumps);
 
     // update coordinate if user seeks or a jump has been passed programmatically
@@ -69,7 +59,7 @@ class TimelineContainer extends React.Component {
       // playerTime and starting position of last coordinate
       // otherwise get from last jump
       const ytTime = isManualSeek ?
-        this.state.playerTime - lastCoordinate.xCoord :
+        this.props.playerTime - lastCoordinate.xCoord :
         lastJump.xCoordRel;
 
       // coordinate has changed, update player
@@ -84,9 +74,7 @@ class TimelineContainer extends React.Component {
   render() {
     const onSeek = (time) => {
       // update player time
-      this.setState(() => ({
-        playerTime: time
-      }));
+      this.props.cpActions.updatePlayerTime(time);
       // change coordinates if necessary
       this.playerSeek(true);
     };
@@ -94,7 +82,6 @@ class TimelineContainer extends React.Component {
     return (
       <Timeline
         coordinateIds={this.props.coord.coordinates}
-        playerTime={this.state.playerTime}
         onSeek={onSeek}
       />
     );
@@ -115,6 +102,7 @@ TimelineContainer.propTypes = {
     ytId: PropTypes.string
   })),
   playerState: PropTypes.string,
+  playerTime: PropTypes.number,
   currentCoordinate: PropTypes.shape({
     id: PropTypes.number,
     ytId: PropTypes.string
@@ -138,6 +126,7 @@ TimelineContainer.defaultProps = {
   tJumps: [],
   coordinates: [],
   playerState: 'paused',
+  playerTime: 0,
   currentCoordinate: {},
   cpActions: {},
   defaultJump: {},
@@ -150,6 +139,7 @@ function mapStateToProps(state) {
     tJumps: _.sortBy(cpSelectors.getTJumps(state), 'tXCoord'),
     coordinates: cpSelectors.getCoordinates(state),
     playerState: cpSelectors.getCurrentPlayerState(state),
+    playerTime: cpSelectors.getCurrentPlayerTime(state),
     currentCoordinate: cpSelectors.getCurrentCoordinate(state),
     defaultJump: cpSelectors.getDefaultJump(state),
     defaultCoordinate: cpSelectors.getDefaultCoordinate(state)

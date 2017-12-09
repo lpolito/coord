@@ -28,7 +28,8 @@ ProgressBarContainer.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    timelineInfo: cpSelectors.getTimelineInfo(state)
+    timelineInfo: cpSelectors.getTimelineInfo(state),
+    playerTime: cpSelectors.getCurrentPlayerTime(state)
   };
 }
 
