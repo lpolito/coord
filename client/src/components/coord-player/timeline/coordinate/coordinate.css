@@ -3,10 +3,20 @@
   margin-top: 5px;
   height: 30px;
   position: relative;
+  background-size: auto 30px;
 }
 
 .coordinate:last-of-type {
   margin-bottom: 5px;
+}
+
+.coordinate.nowPlaying {
+  background-color: palegreen;
+}
+
+.coordinate.canPlay {
+  outline: 1px solid rgba(255, 255, 255, .8);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 0px 8px rgba(255, 255, 255, 0.6);
 }
 
 .jump {
@@ -14,4 +24,10 @@
   width: 2px;
   background-color: red;
   position: absolute;
+}
+
+.defaultJump {
+  background-image: url(./../../../../images/checkerboard.svg);
+  background-size: 6px 6px;
+  width: 9px;
 }

@@ -1,30 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './coordinate.css';
-import checkerboard from './../../../../images/checkerboard.svg';
 
 class Coordinate extends React.Component {
   render() {
     // given xCoordRel of jump, figure out what left position should be
     const calcJumpLeft = pixels => (pixels / this.props.coordinate.yt.length) * 100;
     const jumps = this.props.jumps.map((jump) => {
-      let jumpStyle = {
+      const jumpStyle = {
         left: `${calcJumpLeft(jump.xCoordRel)}%`
       };
 
+      const jumpClasses = [styles.jump];
       if (this.props.defaultJumpId === jump.id) {
-        jumpStyle = {
-          ...jumpStyle,
-          backgroundImage: `url(${checkerboard})`,
-          backgroundSize: '6px 6px',
-          width: '9px'
-        };
+        jumpClasses.push(styles.defaultJump);
       }
 
       return (
         <div
           key={jump.id}
-          className={styles.jump}
+          className={jumpClasses.join(' ')}
           style={jumpStyle}
         />
       );
@@ -36,13 +31,19 @@ class Coordinate extends React.Component {
     const coordinateStyle = {
       left: `${calcCoordinatePercents(this.props.coordinate.xCoord + this.props.timelineInfo.tStartDiff)}%`,
       width: `${calcCoordinatePercents(this.props.coordinate.yt.length)}%`,
-      backgroundColor: this.props.nowPlaying ? 'palegreen' : undefined,
-      backgroundImage: `url(${this.props.coordinate.yt.thumbnailUrl})`,
-      backgroundSize: 'auto 30px'
+      backgroundImage: `url(${this.props.coordinate.yt.thumbnailUrl})`
     };
 
+    const coordinateClasses = [styles.coordinate];
+    if (this.props.nowPlaying) {
+      coordinateClasses.push(styles.nowPlaying);
+    }
+    if (this.props.canPlay) {
+      coordinateClasses.push(styles.canPlay);
+    }
+
     return (
-      <div className={styles.coordinate} style={coordinateStyle}>
+      <div className={coordinateClasses.join(' ')} style={coordinateStyle}>
         {jumps}
         {this.props.coordinate.yt.length}
       </div>
@@ -70,6 +71,7 @@ Coordinate.propTypes = {
     tStartDiff: PropTypes.number
   }).isRequired,
   nowPlaying: PropTypes.bool.isRequired,
+  canPlay: PropTypes.bool.isRequired,
   defaultJumpId: PropTypes.number.isRequired
 };
 

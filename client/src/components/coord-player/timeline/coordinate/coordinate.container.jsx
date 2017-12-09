@@ -6,12 +6,18 @@ import * as cpSelectors from './../../../../store/coordPlayer/selectors';
 
 class CoordinateContainer extends React.Component {
   render() {
+    // determine whether the current coordinate can play given the current playerTime
+    // playerTime must fall within length of coordinate
+    const canPlay = this.props.playerTime >= this.props.coordinate.xCoord &&
+      this.props.playerTime <= (this.props.coordinate.xCoord + this.props.coordinate.yt.length);
+
     return (
       <Coordinate
         coordinate={this.props.coordinate}
         jumps={this.props.jumps}
         timelineInfo={this.props.timelineInfo}
         nowPlaying={this.props.currentCoordinate.id === this.props.coordinateId}
+        canPlay={canPlay}
         defaultJumpId={this.props.defaultJump.id}
       />
     );
@@ -20,7 +26,12 @@ class CoordinateContainer extends React.Component {
 
 CoordinateContainer.propTypes = {
   coordinateId: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
-  coordinate: PropTypes.shape({}),
+  coordinate: PropTypes.shape({
+    yt: PropTypes.shape({
+      length: PropTypes.number
+    }),
+    xCoord: PropTypes.number
+  }),
   jumps: PropTypes.arrayOf(PropTypes.shape({})),
   timelineInfo: PropTypes.shape({}),
   currentCoordinate: PropTypes.shape({
@@ -28,7 +39,8 @@ CoordinateContainer.propTypes = {
   }),
   defaultJump: PropTypes.shape({
     id: PropTypes.number
-  })
+  }),
+  playerTime: PropTypes.number
 };
 
 CoordinateContainer.defaultProps = {
@@ -36,7 +48,8 @@ CoordinateContainer.defaultProps = {
   jumps: [],
   timelineInfo: null,
   currentCoordinate: {},
-  defaultJump: {}
+  defaultJump: {},
+  playerTime: null
 };
 
 function mapStateToProps(state, props) {
@@ -48,7 +61,8 @@ function mapStateToProps(state, props) {
     ),
     timelineInfo: cpSelectors.getTimelineInfo(state),
     currentCoordinate: cpSelectors.getCurrentCoordinate(state),
-    defaultJump: cpSelectors.getDefaultJump(state)
+    defaultJump: cpSelectors.getDefaultJump(state),
+    playerTime: cpSelectors.getCurrentPlayerTime(state)
   };
 }
 
