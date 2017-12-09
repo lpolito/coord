@@ -11,7 +11,7 @@ class CoordinateContainer extends React.Component {
         coordinate={this.props.coordinate}
         jumps={this.props.jumps}
         timelineInfo={this.props.timelineInfo}
-        nowPlaying={this.props.currentPlayingCoordinate.id === this.props.coordinateId}
+        nowPlaying={this.props.currentCoordinate.id === this.props.coordinateId}
         defaultJumpId={this.props.defaultJump.id}
       />
     );
@@ -23,7 +23,7 @@ CoordinateContainer.propTypes = {
   coordinate: PropTypes.shape({}),
   jumps: PropTypes.arrayOf(PropTypes.shape({})),
   timelineInfo: PropTypes.shape({}),
-  currentPlayingCoordinate: PropTypes.shape({
+  currentCoordinate: PropTypes.shape({
     id: PropTypes.number
   }),
   defaultJump: PropTypes.shape({
@@ -35,7 +35,7 @@ CoordinateContainer.defaultProps = {
   coordinate: null,
   jumps: [],
   timelineInfo: null,
-  currentPlayingCoordinate: {},
+  currentCoordinate: {},
   defaultJump: {}
 };
 
@@ -47,7 +47,7 @@ function mapStateToProps(state, props) {
       cpSelectors.getCoordinate(state, props.coordinateId).jumps
     ),
     timelineInfo: cpSelectors.getTimelineInfo(state),
-    currentPlayingCoordinate: cpSelectors.getCurrentPlayingCoordinate(state),
+    currentCoordinate: cpSelectors.getCurrentCoordinate(state),
     defaultJump: cpSelectors.getDefaultJump(state)
   };
 }

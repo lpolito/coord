@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import Immutable from 'seamless-immutable';
 
+/* Coord */
 export function coordLoaded(state) {
   return state && state.coordPlayer && state.coordPlayer.isLoaded;
 }
@@ -80,11 +81,15 @@ export function getDefaultCoordinate(state) {
   return getCoordinate(state, getDefaultJump(state).coordinateId);
 }
 
-
+/* Player */
 export function getCurrentPlayerState(state) {
   return _.get(getCoordPlayerMap(state), ['state'], null);
 }
 
-export function getCurrentPlayingCoordinate(state) {
+export function getCurrentPlayerTime(state) {
+  return _.get(getCoordPlayerMap(state), ['time']);
+}
+
+export function getCurrentCoordinate(state) {
   return _.get(getCoordPlayerMap(state), ['curCoordinate'], null);
 }

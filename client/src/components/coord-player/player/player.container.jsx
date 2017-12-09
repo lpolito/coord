@@ -13,7 +13,7 @@ class PlayerContainer extends React.Component {
   }
 
   render() {
-    if (!this.props.currentPlayingCoordinate || !this.props.currentPlayingCoordinate.ytId) {
+    if (!this.props.currentCoordinate || !this.props.currentCoordinate.ytId) {
       return (null);
     }
 
@@ -31,8 +31,8 @@ class PlayerContainer extends React.Component {
 
     return (
       <Player
-        ytId={this.props.currentPlayingCoordinate.ytId}
-        ytStart={this.props.currentPlayingCoordinate.ytStart}
+        ytId={this.props.currentCoordinate.ytId}
+        ytStart={this.props.currentCoordinate.ytStart}
         autoPlay={this.autoPlay}
         onPause={onPause}
         onPlay={onPlay}
@@ -42,7 +42,7 @@ class PlayerContainer extends React.Component {
 }
 
 PlayerContainer.propTypes = {
-  currentPlayingCoordinate: PropTypes.shape({
+  currentCoordinate: PropTypes.shape({
     ytId: PropTypes.string,
     ytStart: PropTypes.number
   }),
@@ -52,13 +52,13 @@ PlayerContainer.propTypes = {
 };
 
 PlayerContainer.defaultProps = {
-  currentPlayingCoordinate: {},
+  currentCoordinate: {},
   coordPlayerActions: {}
 };
 
 function mapStateToProps(state) {
   return {
-    currentPlayingCoordinate: cpSelectors.getCurrentPlayingCoordinate(state)
+    currentCoordinate: cpSelectors.getCurrentCoordinate(state)
   };
 }
 

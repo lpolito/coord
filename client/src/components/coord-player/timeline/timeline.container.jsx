@@ -35,7 +35,7 @@ class TimelineContainer extends React.Component {
 
   componentDidMount() {
     const timerFunc = () => {
-      if (this.props.currentPlayerState === 'paused') {
+      if (this.props.playerState === 'paused') {
         // player is paused, stop the progression of time
         return;
       }
@@ -62,7 +62,7 @@ class TimelineContainer extends React.Component {
 
     // update coordinate if user seeks or a jump has been passed programmatically
     if (isManualSeek ||
-      (lastJump && lastJump.coordinateId !== this.props.currentPlayingCoordinate.id)) {
+      (lastJump && lastJump.coordinateId !== this.props.currentCoordinate.id)) {
       const lastCoordinate = _.find(this.props.coordinates, c => c.id === lastJump.coordinateId);
 
       // if user is seeking, calculate new youtube player time based on
@@ -114,14 +114,15 @@ TimelineContainer.propTypes = {
     id: PropTypes.number,
     ytId: PropTypes.string
   })),
-  currentPlayerState: PropTypes.string,
-  currentPlayingCoordinate: PropTypes.shape({
+  playerState: PropTypes.string,
+  currentCoordinate: PropTypes.shape({
     id: PropTypes.number,
     ytId: PropTypes.string
   }),
   cpActions: PropTypes.shape({
     changeCoordinate: PropTypes.func,
-    playDefaultCoordinate: PropTypes.func
+    playDefaultCoordinate: PropTypes.func,
+    updatePlayerTime: PropTypes.func
   }),
   defaultJump: PropTypes.shape({
     xCoordRel: PropTypes.number
@@ -136,8 +137,8 @@ TimelineContainer.defaultProps = {
   coord: {},
   tJumps: [],
   coordinates: [],
-  currentPlayerState: 'paused',
-  currentPlayingCoordinate: {},
+  playerState: 'paused',
+  currentCoordinate: {},
   cpActions: {},
   defaultJump: {},
   defaultCoordinate: {}
@@ -148,8 +149,8 @@ function mapStateToProps(state) {
     coord: cpSelectors.getCoord(state),
     tJumps: _.sortBy(cpSelectors.getTJumps(state), 'tXCoord'),
     coordinates: cpSelectors.getCoordinates(state),
-    currentPlayerState: cpSelectors.getCurrentPlayerState(state),
-    currentPlayingCoordinate: cpSelectors.getCurrentPlayingCoordinate(state),
+    playerState: cpSelectors.getCurrentPlayerState(state),
+    currentCoordinate: cpSelectors.getCurrentCoordinate(state),
     defaultJump: cpSelectors.getDefaultJump(state),
     defaultCoordinate: cpSelectors.getDefaultCoordinate(state)
   };
