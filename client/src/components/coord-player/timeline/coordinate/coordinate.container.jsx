@@ -1,32 +1,62 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Coordinate from './coordinate';
 import * as cpSelectors from './../../../../store/coordPlayer/selectors';
+import * as cpActions from './../../../../store/coordPlayer/actions';
 
 class CoordinateContainer extends React.Component {
   render() {
+    // determine if current coordinate is now playing
+    const nowPlaying = this.props.currentCoordinate.id === this.props.coordinateId;
+
     // determine whether the current coordinate can play given the current playerTime
     // playerTime must fall within length of coordinate
     const canPlay = this.props.playerTime >= this.props.coordinate.xCoord &&
       this.props.playerTime <= (this.props.coordinate.xCoord + this.props.coordinate.yt.length);
+
+    // change coordinate on click
+    const onClick = (event) => {
+      event.preventDefault();
+      // if coordinate can't play or is currently playing, ignore click
+      if (!canPlay || nowPlaying) {
+        return;
+      }
+
+      // user clicked on a coordinate
+      // get ytTime from playerTime and starting position of coordinate
+      const ytTime = this.props.playerTime - this.props.coordinate.xCoord;
+
+      // change coordinate
+      this.props.cpActions.changeCoordinate(
+        this.props.coordinateId,
+        this.props.coordinate.ytId,
+        ytTime
+      );
+    };
 
     return (
       <Coordinate
         coordinate={this.props.coordinate}
         jumps={this.props.jumps}
         timelineInfo={this.props.timelineInfo}
-        nowPlaying={this.props.currentCoordinate.id === this.props.coordinateId}
+        nowPlaying={nowPlaying}
         canPlay={canPlay}
         defaultJumpId={this.props.defaultJump.id}
+        onClick={onClick}
       />
     );
   }
 }
 
 CoordinateContainer.propTypes = {
+  cpActions: PropTypes.shape({
+    changeCoordinate: PropTypes.func
+  }),
   coordinateId: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
   coordinate: PropTypes.shape({
+    ytId: PropTypes.string,
     yt: PropTypes.shape({
       length: PropTypes.number
     }),
@@ -44,6 +74,7 @@ CoordinateContainer.propTypes = {
 };
 
 CoordinateContainer.defaultProps = {
+  cpActions: {},
   coordinate: null,
   jumps: [],
   timelineInfo: null,
@@ -66,4 +97,13 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default connect(mapStateToProps)(CoordinateContainer);
+function mapDispatchToProps(dispatch) {
+  return {
+    cpActions: bindActionCreators(cpActions, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CoordinateContainer);

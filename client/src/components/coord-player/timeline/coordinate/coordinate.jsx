@@ -35,15 +35,27 @@ class Coordinate extends React.Component {
     };
 
     const coordinateClasses = [styles.coordinate];
+    // show that the coordinate is playing
     if (this.props.nowPlaying) {
       coordinateClasses.push(styles.nowPlaying);
     }
+    // show that the coordinate can play
     if (this.props.canPlay) {
       coordinateClasses.push(styles.canPlay);
     }
+    // show that the coordinate can be clicked
+    if (this.props.canPlay && !this.props.nowPlaying) {
+      coordinateClasses.push(styles.canClick);
+    }
 
     return (
-      <div className={coordinateClasses.join(' ')} style={coordinateStyle}>
+      <div
+        className={coordinateClasses.join(' ')}
+        style={coordinateStyle}
+        onClick={this.props.onClick}
+        role="button"
+        tabIndex="0"
+      >
         {jumps}
         {this.props.coordinate.yt.length}
       </div>
@@ -72,7 +84,8 @@ Coordinate.propTypes = {
   }).isRequired,
   nowPlaying: PropTypes.bool.isRequired,
   canPlay: PropTypes.bool.isRequired,
-  defaultJumpId: PropTypes.number.isRequired
+  defaultJumpId: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default Coordinate;
