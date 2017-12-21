@@ -29,9 +29,6 @@ class ProgressBar extends React.Component {
           currentTime={this.props.playerTime}
           isSeekable={this.state.isSeekable}
           onSeek={this.props.onSeek}
-          onSeekStart={time => this.setState(() => ({ lastSeekStart: time }))}
-          onSeekEnd={time => this.setState(() => ({ lastSeekEnd: time }))}
-          onIntent={time => this.setState(() => ({ lastIntent: time }))}
         />
       </div>
     );

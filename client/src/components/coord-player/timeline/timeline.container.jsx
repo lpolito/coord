@@ -47,7 +47,8 @@ class TimelineContainer extends React.Component {
 
   playerSeek(isManualSeek = false) {
     // get jumps before playerTime
-    const pastJumps = _.filter(this.props.tJumps, j => j.tXCoord <= this.props.playerTime);
+    const orderedJumps = _.sortBy(this.props.tJumps, 'tXCoord');
+    const pastJumps = _.filter(orderedJumps, j => j.tXCoord <= this.props.playerTime);
     const lastJump = _.last(pastJumps);
 
     // update coordinate if user seeks or a jump has been passed programmatically
@@ -136,7 +137,7 @@ TimelineContainer.defaultProps = {
 function mapStateToProps(state) {
   return {
     coord: cpSelectors.getCoord(state),
-    tJumps: _.sortBy(cpSelectors.getTJumps(state), 'tXCoord'),
+    tJumps: cpSelectors.getTJumps(state),
     coordinates: cpSelectors.getCoordinates(state),
     playerState: cpSelectors.getCurrentPlayerState(state),
     playerTime: cpSelectors.getCurrentPlayerTime(state),
