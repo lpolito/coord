@@ -9,28 +9,25 @@ const initialState = Immutable({
     isLoaded: false,
     state: 'paused',
     curCoordinate: {
-      id: null,
-      ytId: null,
       ytStart: 0
+      // also will have all coordinate attributes
     },
     time: 0 // current time on timeline
   }
 });
 
+// we are using using seamless-immutable, merge the new entities into the state
 export default function coord(state = initialState.coordPlayer, action) {
   switch (action.type) {
     case types.DESERIALIZE_COORD:
-      // we are using using seamless-immutable, merge the new entities into the state
       return state.merge([
         normalize(action, { coord: coordSchema }),
         { isLoaded: true }
       ]);
     case types.CHANGE_COORDINATE:
-      // we are using using seamless-immutable, merge the new entities into the state
       return state.merge({
         curCoordinate: {
-          id: action.coordinateId,
-          ytId: action.ytId,
+          ...action.coordinate,
           ytStart: action.ytStart
         }
       });

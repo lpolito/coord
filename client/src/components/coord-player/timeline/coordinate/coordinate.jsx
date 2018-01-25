@@ -4,27 +4,6 @@ import styles from './coordinate.css';
 
 class Coordinate extends React.Component {
   render() {
-    // given xCoordRel of jump, figure out what left position should be
-    const calcJumpLeft = pixels => (pixels / this.props.coordinate.yt.length) * 100;
-    const jumps = this.props.jumps.map((jump) => {
-      const jumpStyle = {
-        left: `${calcJumpLeft(jump.xCoordRel)}%`
-      };
-
-      const jumpClasses = [styles.jump];
-      if (this.props.defaultJumpId === jump.id) {
-        jumpClasses.push(styles.defaultJump);
-      }
-
-      return (
-        <div
-          key={jump.id}
-          className={jumpClasses.join(' ')}
-          style={jumpStyle}
-        />
-      );
-    });
-
     // given pixel width / position, figure out what percentage should be
     const calcCoordinatePercents = pixels => (pixels / this.props.timelineInfo.tLength) * 100;
 
@@ -35,6 +14,10 @@ class Coordinate extends React.Component {
     };
 
     const coordinateClasses = [styles.coordinate];
+    // show that the coordinate is default
+    if (this.props.isDefault) {
+      coordinateClasses.push(styles.isDefault);
+    }
     // show that the coordinate is playing
     if (this.props.nowPlaying) {
       coordinateClasses.push(styles.nowPlaying);
@@ -56,7 +39,6 @@ class Coordinate extends React.Component {
         role="button"
         tabIndex="0"
       >
-        {jumps}
         {this.props.coordinate.yt.length}
       </div>
     );
@@ -74,17 +56,13 @@ Coordinate.propTypes = {
     xCoord: PropTypes.number,
     jumps: PropTypes.arrayOf(PropTypes.number)
   }).isRequired,
-  jumps: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    xCoordRel: PropTypes.number
-  })).isRequired,
+  isDefault: PropTypes.bool.isRequired,
   timelineInfo: PropTypes.shape({
     tLength: PropTypes.number,
     tStartDiff: PropTypes.number
   }).isRequired,
   nowPlaying: PropTypes.bool.isRequired,
   canPlay: PropTypes.bool.isRequired,
-  defaultJumpId: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired
 };
 

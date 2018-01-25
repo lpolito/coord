@@ -30,8 +30,7 @@ class CoordinateContainer extends React.Component {
 
       // change coordinate
       this.props.cpActions.changeCoordinate(
-        this.props.coordinateId,
-        this.props.coordinate.ytId,
+        this.props.coordinate,
         ytTime
       );
     };
@@ -39,11 +38,10 @@ class CoordinateContainer extends React.Component {
     return (
       <Coordinate
         coordinate={this.props.coordinate}
-        jumps={this.props.jumps}
+        isDefault={this.props.coordinate.id === this.props.defaultCoordinate.id}
         timelineInfo={this.props.timelineInfo}
         nowPlaying={nowPlaying}
         canPlay={canPlay}
-        defaultJumpId={this.props.defaultJump.id}
         onClick={onClick}
       />
     );
@@ -56,18 +54,18 @@ CoordinateContainer.propTypes = {
   }),
   coordinateId: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
   coordinate: PropTypes.shape({
+    id: PropTypes.number,
     ytId: PropTypes.string,
     yt: PropTypes.shape({
       length: PropTypes.number
     }),
     xCoord: PropTypes.number
   }),
-  jumps: PropTypes.arrayOf(PropTypes.shape({})),
   timelineInfo: PropTypes.shape({}),
   currentCoordinate: PropTypes.shape({
     id: PropTypes.number
   }),
-  defaultJump: PropTypes.shape({
+  defaultCoordinate: PropTypes.shape({
     id: PropTypes.number
   }),
   playerTime: PropTypes.number
@@ -76,23 +74,18 @@ CoordinateContainer.propTypes = {
 CoordinateContainer.defaultProps = {
   cpActions: {},
   coordinate: null,
-  jumps: [],
   timelineInfo: null,
   currentCoordinate: {},
-  defaultJump: {},
+  defaultCoordinate: {},
   playerTime: null
 };
 
 function mapStateToProps(state, props) {
   return {
     coordinate: cpSelectors.getCoordinate(state, props.coordinateId),
-    jumps: cpSelectors.getJumpsByIds(
-      state,
-      cpSelectors.getCoordinate(state, props.coordinateId).jumps
-    ),
     timelineInfo: cpSelectors.getTimelineInfo(state),
     currentCoordinate: cpSelectors.getCurrentCoordinate(state),
-    defaultJump: cpSelectors.getDefaultJump(state),
+    defaultCoordinate: cpSelectors.getDefaultCoordinate(state),
     playerTime: cpSelectors.getCurrentPlayerTime(state)
   };
 }

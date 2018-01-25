@@ -2,16 +2,14 @@ const _ = require('lodash');
 const ytVideos = require('./../../apis/google/youtube').videos;
 const Coord = require('./../../models/coord');
 const Coordinate = require('./../../models/coordinate');
-const Jump = require('./../../models/jump');
 const timeUtils = require('./../../utils').time;
 
 const get = (req, res) => {
   Coord
     .query()
     .findById(req.params.id)
-    .eager('coordinates.jumps')
+    .eager('coordinates')
     .omit(Coordinate, ['coordId', 'createdAt', 'updatedAt'])
-    .omit(Jump, ['createdAt', 'updatedAt'])
     .then((coord) => {
       const ytVideoPromises = [];
       _.forEach(coord.coordinates, (coordinate) => {

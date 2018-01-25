@@ -10,6 +10,17 @@
   margin-bottom: 5px;
 }
 
+.coordinate.isDefault:before {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 9px;
+  height: 100%;
+  background-image: url(./../../../../images/checkerboard.svg);
+  background-size: 6px 6px;
+}
+
 .coordinate.canPlay {
   outline: 1px solid rgba(255, 255, 255, .8);
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 0px 8px rgba(255, 255, 255, 0.6);
@@ -29,10 +40,4 @@
   width: 2px;
   background-color: red;
   position: absolute;
-}
-
-.defaultJump {
-  background-image: url(./../../../../images/checkerboard.svg);
-  background-size: 6px 6px;
-  width: 9px;
 }

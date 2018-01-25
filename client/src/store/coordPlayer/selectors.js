@@ -1,5 +1,4 @@
 import * as _ from 'lodash';
-import Immutable from 'seamless-immutable';
 
 /* Coord */
 export function coordLoaded(state) {
@@ -21,18 +20,6 @@ export function getCoordinates(state) {
 
 export function getCoordinate(state, coordinateId) {
   return _.get(getCoordPlayerMap(state), ['entities', 'coordinates', coordinateId], null);
-}
-
-export function getJumps(state) {
-  return _.values(_.get(getCoordPlayerMap(state), ['entities', 'jumps']));
-}
-
-export function getJump(state, jumpId) {
-  return _.get(getCoordPlayerMap(state), ['entities', 'jumps', jumpId], null);
-}
-
-export function getJumpsByIds(state, jumpIds) {
-  return _.filter(getJumps(state), jump => jumpIds.includes(jump.id));
 }
 
 export function getTimelineInfo(state) {
@@ -62,23 +49,8 @@ export function getTimelineInfo(state) {
   };
 }
 
-export function getTJumps(state) {
-  const jumps = Immutable.asMutable(getJumps(state), { deep: true });
-  const timelineInfo = getTimelineInfo(state);
-  _.forEach(jumps, (jump) => {
-    const coordinate = getCoordinate(state, jump.coordinateId);
-    // timeline jump xCoord (tXCoord) = jump.xCoordRel + coordinate xCoord + tStartDiff
-    jump.tXCoord = jump.xCoordRel + coordinate.xCoord + timelineInfo.tStartDiff;
-  });
-  return jumps;
-}
-
-export function getDefaultJump(state) {
-  return getJump(state, getCoord(state).defaultJumpId);
-}
-
 export function getDefaultCoordinate(state) {
-  return getCoordinate(state, getDefaultJump(state).coordinateId);
+  return getCoordinate(state, getCoord(state).defaultCoordinateId);
 }
 
 /* Player */

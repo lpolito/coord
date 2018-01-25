@@ -22,15 +22,6 @@ class Coordinate extends objection.Model {
 
   static get relationMappings() {
     return {
-      // coordinate has many jumps
-      jumps: {
-        relation: objection.Model.HasManyRelation,
-        modelClass: path.join(__dirname, '/jump'),
-        join: {
-          from: 'coordinates.id',
-          to: 'jumps.coordinateId'
-        }
-      },
       // coordinate belongs to one coord
       coord: {
         relation: objection.Model.BelongsToOneRelation,

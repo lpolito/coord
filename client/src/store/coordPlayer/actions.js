@@ -26,11 +26,10 @@ export function fetchCoord() {
       .then(json => dispatch(deserializeCoord(json)));
 }
 
-export function changeCoordinate(coordinateId, ytId, ytStart) {
+export function changeCoordinate(coordinate, ytStart) {
   return {
     type: types.CHANGE_COORDINATE,
-    coordinateId,
-    ytId,
+    coordinate,
     ytStart
   };
 }
