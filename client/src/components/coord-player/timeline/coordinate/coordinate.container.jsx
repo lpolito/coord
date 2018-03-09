@@ -40,6 +40,7 @@ class CoordinateContainer extends React.Component {
         coordinate={this.props.coordinate}
         isDefault={this.props.coordinate.id === this.props.defaultCoordinate.id}
         timelineInfo={this.props.timelineInfo}
+        playerTime={this.props.playerTime}
         nowPlaying={nowPlaying}
         canPlay={canPlay}
         onClick={onClick}

@@ -4,14 +4,21 @@ import styles from './coordinate.css';
 
 class Coordinate extends React.Component {
   render() {
-    // given pixel width / position, figure out what percentage should be
+    // given pixel width / position, figure out what percentage should be in relation to timeline
     const calcCoordinatePercents = pixels => (pixels / this.props.timelineInfo.tLength) * 100;
 
+    // given pixel position, figure out what percentage should be in relation to coordinate itself
+    const calcIndicatorPercents = pixels => (pixels / this.props.coordinate.yt.length) * 100;
+
+    // dynamic styles for coordinate
     const coordinateStyle = {
       left: `${calcCoordinatePercents(this.props.coordinate.xCoord + this.props.timelineInfo.tStartDiff)}%`,
       width: `${calcCoordinatePercents(this.props.coordinate.yt.length)}%`,
       backgroundImage: `url(${this.props.coordinate.yt.thumbnailUrl})`
     };
+
+    // dynamic style for coordinate indicator
+    let indicatorStyle = {};
 
     const coordinateClasses = [styles.coordinate];
     // show that the coordinate is default
@@ -21,6 +28,12 @@ class Coordinate extends React.Component {
     // show that the coordinate is playing
     if (this.props.nowPlaying) {
       coordinateClasses.push(styles.nowPlaying);
+
+      // add a vertical line indicating progress on current coordinate
+      indicatorStyle = {
+        display: 'block',
+        left: `${calcIndicatorPercents(this.props.playerTime - (this.props.coordinate.xCoord + this.props.timelineInfo.tStartDiff))}%`
+      };
     }
     // show that the coordinate can play
     if (this.props.canPlay) {
@@ -51,6 +64,7 @@ class Coordinate extends React.Component {
         role="button"
         tabIndex="0"
       >
+        <div className={styles.indicator} style={indicatorStyle} />
         <div className={styles.details}>
           <span>{this.props.coordinate.yt.title}</span>
           <span>{secondsToDisplayTime(this.props.coordinate.yt.length)}</span>
@@ -77,6 +91,7 @@ Coordinate.propTypes = {
     tLength: PropTypes.number,
     tStartDiff: PropTypes.number
   }).isRequired,
+  playerTime: PropTypes.number.isRequired,
   nowPlaying: PropTypes.bool.isRequired,
   canPlay: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired
