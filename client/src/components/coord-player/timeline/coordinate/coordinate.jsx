@@ -29,9 +29,8 @@ class Coordinate extends React.Component {
     if (this.props.nowPlaying) {
       coordinateClasses.push(styles.nowPlaying);
 
-      // add a vertical line indicating progress on current coordinate
+      // add indicator for progress on current coordinate
       indicatorStyle = {
-        display: 'block',
         left: `${calcIndicatorPercents(this.props.playerTime - (this.props.coordinate.xCoord + this.props.timelineInfo.tStartDiff))}%`
       };
     }
@@ -42,6 +41,11 @@ class Coordinate extends React.Component {
     // show that the coordinate can be clicked
     if (this.props.canPlay && !this.props.nowPlaying) {
       coordinateClasses.push(styles.canClick);
+
+      // add ghosted indicator for progress on clickable coordinate
+      indicatorStyle = {
+        left: `${calcIndicatorPercents(this.props.playerTime - (this.props.coordinate.xCoord + this.props.timelineInfo.tStartDiff))}%`
+      };
     }
 
     // convert seconds to mm:ss or hh:mm:ss display
