@@ -31,6 +31,18 @@ class Coordinate extends React.Component {
       coordinateClasses.push(styles.canClick);
     }
 
+    // convert seconds to mm:ss or hh:mm:ss display
+    const secondsToDisplayTime = (seconds) => {
+      const date = new Date(null);
+      date.setSeconds(seconds);
+      if (seconds < 3600) {
+        // seconds are less than an hour, drop hour display
+        return date.toISOString().substr(14, 5);
+      }
+      // display hour display
+      return date.toISOString().substr(11, 5);
+    };
+
     return (
       <div
         className={coordinateClasses.join(' ')}
@@ -39,7 +51,10 @@ class Coordinate extends React.Component {
         role="button"
         tabIndex="0"
       >
-        {this.props.coordinate.yt.length}
+        <div className={styles.details}>
+          <span>{this.props.coordinate.yt.title}</span>
+          <span>{secondsToDisplayTime(this.props.coordinate.yt.length)}</span>
+        </div>
       </div>
     );
   }
@@ -50,6 +65,7 @@ Coordinate.propTypes = {
     id: PropTypes.number,
     ytId: PropTypes.string,
     yt: PropTypes.shape({
+      title: PropTypes.string,
       length: PropTypes.number,
       thumbnailUrl: PropTypes.string
     }),

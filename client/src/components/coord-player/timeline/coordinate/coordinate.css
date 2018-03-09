@@ -35,6 +35,24 @@
   cursor: pointer;
 }
 
+.details {
+  display: table-cell;
+  vertical-align: middle;
+  height: 30px;
+  padding-left: 5px;
+  color: white;
+  /* simulated text stroke */
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.coordinate.isDefault > .details {
+  padding-left: 14px;
+}
+
+.details > span {
+  display: block;
+}
+
 .jump {
   height: 100%;
   width: 2px;
