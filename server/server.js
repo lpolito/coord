@@ -21,7 +21,7 @@ objection.Model.knex(knex);
 
 // set up googleapis and global defaults
 google.options({
-  auth: 'AIzaSyDLWZ_wsNwvHnF91EuDYO_FdDc5xV7F7Tw'
+  auth: '---'
 });
 
 require('./routes/')(app);
